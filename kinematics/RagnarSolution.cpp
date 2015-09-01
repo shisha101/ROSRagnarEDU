@@ -156,21 +156,21 @@ RagnarSolution::RagnarSolution(Config* config)
 }
 
 void RagnarSolution::init() {
-	rad2deg = 180.0/acos(-1.0);
-	pi12 = acos(0.0);
+	rad2deg = 180.0/acosf(-1.0);
+	pi12 = acosf(0.0);
 
 	// precalc cos
 	// rho
-	cp[8]  = cos(parameter[8]);
-	cp[9]  = cos(parameter[9]);
-	cp[10] = cos(parameter[10]);
-	cp[11] = cos(parameter[11]);
+	cp[8]  = cosf(parameter[8]);
+	cp[9]  = cosf(parameter[9]);
+	cp[10] = cosf(parameter[10]);
+	cp[11] = cosf(parameter[11]);
 	
 	// alpha
-	cp[12] = cos(parameter[12]);
-	cp[13] = cos(parameter[13]);
-	cp[14] = cos(parameter[14]);
-	cp[15] = cos(parameter[15]);
+	cp[12] = cosf(parameter[12]);
+	cp[13] = cosf(parameter[13]);
+	cp[14] = cosf(parameter[14]);
+	cp[15] = cosf(parameter[15]);
 	
 	cp[16] = parameter[16];
 	cp[17] = parameter[17];
@@ -188,23 +188,23 @@ void RagnarSolution::init() {
 	cp[27] = parameter[27];
 	
 	// beta
-	cp[28] = cos(parameter[28]);
-	cp[29] = cos(parameter[29]);
-	cp[30] = cos(parameter[30]);
-	cp[31] = cos(parameter[31]);
+	cp[28] = cosf(parameter[28]);
+	cp[29] = cosf(parameter[29]);
+	cp[30] = cosf(parameter[30]);
+	cp[31] = cosf(parameter[31]);
 	
 	// precalc sin
 	// rho
-	sp[8]  = sin(parameter[8]);
-	sp[9]  = sin(parameter[9]);
-	sp[10] = sin(parameter[10]);
-	sp[11] = sin(parameter[11]);
+	sp[8]  = sinf(parameter[8]);
+	sp[9]  = sinf(parameter[9]);
+	sp[10] = sinf(parameter[10]);
+	sp[11] = sinf(parameter[11]);
 	
 	// alpha
-	sp[12] = sin(parameter[12]);
-	sp[13] = sin(parameter[13]);
-	sp[14] = sin(parameter[14]);
-	sp[15] = sin(parameter[15]);
+	sp[12] = sinf(parameter[12]);
+	sp[13] = sinf(parameter[13]);
+	sp[14] = sinf(parameter[14]);
+	sp[15] = sinf(parameter[15]);
 	
 	sp[16] = parameter[16];
 	sp[17] = parameter[17];
@@ -222,10 +222,10 @@ void RagnarSolution::init() {
 	sp[27] = parameter[27];	
 
 	// beta
-	sp[28] = sin(parameter[28]);
-	sp[29] = sin(parameter[29]);
-	sp[30] = sin(parameter[30]);
-	sp[31] = sin(parameter[31]);
+	sp[28] = sinf(parameter[28]);
+	sp[29] = sinf(parameter[29]);
+	sp[30] = sinf(parameter[30]);
+	sp[31] = sinf(parameter[31]);
 	
 	if(parameter[16] == 0.0f || parameter[17] == 0.0f || parameter[18] == 0.0f || parameter[19] == 0.0f ||
 	   parameter[20] == 0.0f || parameter[21] == 0.0f || parameter[22] == 0.0f || parameter[23] == 0.0f)
@@ -322,16 +322,82 @@ void RagnarSolution::cartesian_to_actuator( float cartesian_mm[], float actuator
 
 void RagnarSolution::actuator_to_cartesian( float actuator_mm[], float cartesian_mm[] )
 {
-	// TODO: add forward kinematics
+    float joints[4] = { (actuator_mm[0] + 90) * PIOVER180, (actuator_mm[1] + 90) * PIOVER180, (actuator_mm[2] - 90) * PIOVER180, (actuator_mm[3] - 90) * PIOVER180 };
+    float u1, v1, w1;
+    float u2, v2, w2;
+    float u3, v3, w3;
+    float s1x, s1y, s1z;
+    float s2x, s2y, s2z;
+    float s11, s22;
+    float D[4];
+    float g[2];
+    int r1, r2;
+    float xy[2];
+    float sxx, sxy, sxz;
 
-    // fix position to home
-	cartesian_mm[0] = ROUND(0, 4);
-    cartesian_mm[1] = ROUND(0, 4);
-    cartesian_mm[2] = ROUND(-350, 4);
-    cartesian_mm[3] = ROUND(0, 4);
-    
-    this->cartesian_to_actuator(actuator_mm, cartesian_mm);
-    
+    u1 = (-parameter[0] + parameter[24] * cp[28]) + parameter[16] * (sp[8] * sinf(joints[0]) - cp[8] * cp[12] * cosf(joints[0]));
+    v1 = -((parameter[4] - parameter[24] * sp[28]) + parameter[16] * (cp[8] * sinf(joints[0]) + cp[12] * sp[8] * cosf(joints[0])));
+    w1 = parameter[16] * sp[12] * cosf(joints[0]);
+
+    u2 = (-parameter[1] + parameter[25] * cp[29]) + parameter[17] * (sp[9] * sinf(joints[1]) - cp[9] * cp[13] * cosf(joints[1]));
+    v2 = -((parameter[5] - parameter[25] * sp[29]) + parameter[17] * (cp[9] * sinf(joints[1]) + cp[13] * sp[9] * cosf(joints[1])));
+    w2 = parameter[17] * sp[13] * cosf(joints[1]);
+
+    u3 = (-parameter[2] + parameter[26] * cp[30]) + parameter[18] * (sp[10] * sinf(joints[2]) - cp[10] * cp[14] * cosf(joints[2]));
+    v3 = -((parameter[6] - parameter[26] * sp[30]) + parameter[18] * (cp[10] * sinf(joints[2]) + cp[14] * sp[10] * cosf(joints[2])));
+    w3 = parameter[18] * sp[14] * cosf(joints[2]);
+
+    s1x = 2.0 * u1 - 2.0 * u2;
+    s1y = 2.0 * v1 - 2.0 * v2;
+    s1z = 2.0 * w1 - 2.0 * w2;
+    s11 = ((((powf(u1, 2.0) - powf(u2, 2.0)) + powf(v1, 2.0)) - powf(v2, 2.0)) + powf(w1, 2.0)) - powf(w2, 2.0);
+    s2x = 2.0 * u1 - 2.0 * u3;
+    s2y = 2.0 * v1 - 2.0 * v3;
+    s2z = 2.0 * w1 - 2.0 * w3;
+    s22 = ((((powf(u1, 2.0) - powf(u3, 2.0)) + powf(v1, 2.0)) - powf(v3, 2.0)) + powf(w1, 2.0)) - powf(w3, 2.0);
+
+    if ((joints[0] == 1.5707963267948966) && (joints[1] == 1.5707963267948966) && (joints[2] == -1.5707963267948966)) {
+        D[0] = s1x; D[2] = s1y; D[1] = s2x; D[3] = s2y;
+        g[0] = -s11; g[1] = -s22;
+
+        if (fabs(D[1]) > fabs(D[0])) {
+            r1 = 1;
+            r2 = 0;
+        }
+        else
+        {
+            r1 = 0;
+            r2 = 1;
+        }
+
+        v2 = D[r2] / D[r1];
+        u2 = D[2 + r2] - v2 * D[2 + r1];
+        xy[1] = (g[r2] - g[r1] * v2) / u2;
+        xy[0] = (g[r1] - xy[1] * D[2 + r1]) / D[r1];
+
+        for (r1 = 0; r1 < 2; r1++) {
+            cartesian_mm[r1] = xy[r1];
+        }
+
+        cartesian_mm[2] = -sqrtf((powf(parameter[20], 2.0) - powf(xy[0] + u1, 2.0)) - powf(xy[1] + v1, 2.0));
+    }
+    else
+    {
+        sxx = (powf(s1x * s2y - s2x * s1y, 2.0) / powf(s1y * s2z - s2y * s1z, 2.0) + powf(s1x * s2z - s2x * s1z, 2.0) / powf(s1y * s2z - s2y * s1z, 2.0)) + 1.0;
+        sxy = (((2.0 * u1 - 2.0 * v1 * (s1x * s2z - s2x * s1z) / (s1y * s2z - s2y * s1z)) + 2.0 * w1 * (s1x * s2y - s2x * s1y) / (s1y * s2z - s2y * s1z))
+                + 2.0 * (s11 * s2y - s22 * s1y) * (s1x * s2y - s2x * s1y) / powf(s1y * s2z - s2y * s1z, 2.0)) + 2.0 * (s11 * s2z - s22 * s1z) * (s1x * s2z - s2x * s1z) / powf(s1y * s2z - s2y * s1z, 2.0);
+        sxz = (powf(u1, 2.0) - powf(parameter[20], 2.0) + powf(v1, 2.0) + powf(w1, 2.0)) + powf(s11 * s2y - s22 * s1y, 2.0) / powf(s1y * s2z - s2y * s1z, 2.0)
+                + powf(s11 * s2z - s22 * s1z, 2.0) / powf(s1y * s2z - s2y * s1z, 2.0) - 2.0 * v1 * (s11 * s2z - s22 * s1z) / (s1y * s2z - s2y * s1z) + 2.0 * w1 * (s11 * s2y - s22 * s1y) / (s1y * s2z - s2y * s1z);
+
+        cartesian_mm[0] = (-sxy + sqrtf( powf(sxy, 2.0) - 4.0 * sxx * sxz))/(2.0 * sxx);
+        cartesian_mm[1] = -(((s11 * s2z - s22 * s1z) + s1x * s2z * cartesian_mm[0]) - s2x * s1z * cartesian_mm[0]) / (s1y * s2z - s2y * s1z);
+        cartesian_mm[2] = (((s11 * s2y - s22 * s1y) + s1x * s2y * cartesian_mm[0]) - s2x * s1y * cartesian_mm[0]) / (s1y * s2z - s2y * s1z);
+        if (cartesian_mm[2] > 0)  {
+            cartesian_mm[0] = (-sxy - sqrtf(powf(sxy, 2.0) - 4.0 * sxx * sxz))/(2.0 * sxx);
+            cartesian_mm[1] = -(((s11 * s2z - s22 * s1z) + s1x * s2z * cartesian_mm[0]) - s2x * s1z * cartesian_mm[0]) / (s1y * s2z - s2y * s1z);
+            cartesian_mm[2] = (((s11 * s2y - s22 * s1y) + s1x * s2y * cartesian_mm[0]) - s2x * s1y * cartesian_mm[0]) / (s1y * s2z - s2y * s1z);
+        }
+    }
 }
 
 bool RagnarSolution::set_optional(const arm_options_t& options) {
