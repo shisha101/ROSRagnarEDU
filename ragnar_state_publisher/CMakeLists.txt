@@ -6,6 +6,7 @@ project(ragnar_state_publisher)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   ragnar_kinematics
+  sensor_msgs
   tf
 )
 
@@ -99,9 +100,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES ragnar_state_publisher
-#  CATKIN_DEPENDS ragnar_kinematics tf
+ # INCLUDE_DIRS include
+ # LIBRARIES ragnar_state_publisher
+ CATKIN_DEPENDS ragnar_kinematics tf sensor_msgs
 #  DEPENDS system_lib
 )
 
@@ -111,7 +112,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
@@ -127,16 +128,17 @@ include_directories(
 # add_dependencies(ragnar_state_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(ragnar_state_publisher_node src/ragnar_state_publisher_node.cpp)
+add_executable(ragnar_state_publisher_node src/ragnar_state_publisher_node.cpp
+                                           src/ragnar_state_publisher.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(ragnar_state_publisher_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(ragnar_state_publisher_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(ragnar_state_publisher_node
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

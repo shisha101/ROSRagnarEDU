@@ -3,6 +3,7 @@
 #include <ros/ros.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <visualization_msgs/MarkerArray.h>
+#include <sensor_msgs/JointState.h>
 
 geometry_msgs::Point fromVec(const Eigen::Vector3f& v)
 {
@@ -91,6 +92,7 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
 
   ros::Publisher pose_pub = nh.advertise<visualization_msgs::MarkerArray>("ragnar_pose", 1);
+  ros::Publisher joint_pub = nh.advertise<sensor_msgs::JointState>("joint_state", 1);
 
   // Debug print
   debugParams();
@@ -179,6 +181,14 @@ int main(int argc, char** argv)
 
       visualization_msgs::MarkerArray array = makeArray(pts);
       pose_pub.publish(array);
+
+
+      sensor_msgs::JointState js;
+      js.header.frame_id= "base_link";
+      js.header.stamp = ros::Time::now();
+      js.position.assign(joints, joints+4);
+
+      joint_pub.publish(js);
 
       ROS_INFO_STREAM("A:\n" << pts.A << "\nB:\n" << pts.B << "\nC:\n" << pts.C << "\n");
     }
