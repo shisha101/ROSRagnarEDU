@@ -4,6 +4,11 @@
 <!-- |    EDITING THIS FILE BY HAND IS NOT RECOMMENDED                                 | -->
 <!-- =================================================================================== -->
 <robot name="Ragnar" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="world"/>
+  <joint name="world_to_base" type="fixed">
+    <child link="base_link"/>
+    <parent link="world"/>
+  </joint>
   <link name="base_link">
     <inertial>
       <origin rpy="0 0 0" xyz="-4.80572213006859E-06 9.64495107789746E-06 -0.0184680705713898"/>

@@ -8,7 +8,7 @@
 geometry_msgs::Point fromVec(const Eigen::Vector3f& v)
 {
   geometry_msgs::Point pt;
-  pt.x = v(0); pt.y = v(1); pt.z = v(2);
+  pt.x = v(1); pt.y = v(0); pt.z = v(2) - 0.05;
   return pt;
 }
 
@@ -92,7 +92,7 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
 
   ros::Publisher pose_pub = nh.advertise<visualization_msgs::MarkerArray>("ragnar_pose", 1);
-  ros::Publisher joint_pub = nh.advertise<sensor_msgs::JointState>("joint_state", 1);
+  ros::Publisher joint_pub = nh.advertise<sensor_msgs::JointState>("joint_states", 1);
 
   // Debug print
   debugParams();

@@ -3,7 +3,7 @@
 
 static tf::Vector3 toTF(const Eigen::Vector3f& v)
 {
-  return tf::Vector3(v(0), v(1), v(2));
+  return tf::Vector3(v(1), v(0), v(2));
 }
 
 static void calculateDirectedTransform(const Eigen::Vector3f& start,
@@ -13,9 +13,9 @@ static void calculateDirectedTransform(const Eigen::Vector3f& start,
   tf::Vector3 origin;
   tf::Quaternion pose;
 
-  origin.setX(start(0));
-  origin.setY(start(1));
-  origin.setZ(start(2));
+  origin.setX(start(1));
+  origin.setY(start(0));
+  origin.setZ(start(2) - 0.05);
 
   transform.setOrigin(origin);
 
@@ -29,9 +29,9 @@ static void calculateDirectedTransform(const Eigen::Vector3f& start,
   z = n.cross(y);
 
   tf::Matrix3x3 rotation(
-       n.getX(), y.getX(), z.getX(),
-       n.getY(), y.getY(), z.getY(),
-       n.getZ(), y.getZ(), z.getZ());
+       z.getX(), n.getX(), y.getX(),
+       z.getY(), n.getY(), y.getY(),
+       z.getZ(), n.getZ(), y.getZ());
 
   transform.setBasis(rotation);
 }
