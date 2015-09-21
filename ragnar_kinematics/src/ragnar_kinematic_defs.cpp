@@ -69,9 +69,9 @@ const float ragnar_kinematics::ragnar_cosine_cache[32] =
 
   // alpha
   std::cos(RAGNAR_JOINT1_BASE_TILT),
-  std::cos(RAGNAR_JOINT1_BASE_TILT),
-  std::cos(RAGNAR_JOINT1_BASE_TILT),
-  std::cos(RAGNAR_JOINT1_BASE_TILT),
+  std::cos(RAGNAR_JOINT2_BASE_TILT),
+  std::cos(RAGNAR_JOINT3_BASE_TILT),
+  std::cos(RAGNAR_JOINT4_BASE_TILT),
 
   // params 16-27 map directly to their normal values
   RAGNAR_JOINT1_PRIMARY_ARM,
@@ -115,9 +115,9 @@ const float ragnar_kinematics::ragnar_sine_cache[32] =
 
   // alpha
   std::sin(RAGNAR_JOINT1_BASE_TILT),
-  std::sin(RAGNAR_JOINT1_BASE_TILT),
-  std::sin(RAGNAR_JOINT1_BASE_TILT),
-  std::sin(RAGNAR_JOINT1_BASE_TILT),
+  std::sin(RAGNAR_JOINT2_BASE_TILT),
+  std::sin(RAGNAR_JOINT3_BASE_TILT),
+  std::sin(RAGNAR_JOINT4_BASE_TILT),
 
   // params 16-27 map directly to their normal values
   RAGNAR_JOINT1_PRIMARY_ARM,
