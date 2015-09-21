@@ -9,7 +9,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.5 0.5 0.5 1" />
       </material>
     </visual>
     <visual>
@@ -18,7 +18,7 @@
         <cylinder length="${d1}" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.5 0.5 0.5 1" />
       </material>
     </visual>
 
@@ -28,7 +28,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.5 0.5 0.5 1" />
       </material>
     </collision>
     <collision>
@@ -37,14 +37,14 @@
         <cylinder length="${d1}" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.5 0.5 0.5 1" />
       </material>
     </collision>
   </link>
 
   <joint name="a${num}_j1" type="revolute">
     <origin xyz="${x} ${y} ${z}" rpy="${r} ${p} ${w}" />
-    <parent link="base_link" />
+    <parent link="base_link2" />
     <child link="upper_arm_${num}" />
     <axis xyz="-1.0 0 0" />
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
@@ -62,7 +62,7 @@
         <sphere radius="0.03"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.75 0.75 0.75 1" />
       </material>
     </visual>
     <visual>
@@ -71,7 +71,7 @@
         <cylinder length="${d2}" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.75 0.75 0.75 1" />
       </material>
     </visual>
     <visual>
@@ -80,7 +80,7 @@
         <sphere radius="0.03"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.75 0.75 0.7 1" />
       </material>
     </visual>
 
@@ -90,7 +90,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.75 0.75 0.75 1" />
       </material>
     </collision>
     <collision>
@@ -99,7 +99,7 @@
         <cylinder length="${d2}" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        <color rgba="0.75 0.75 0.75 1" />
       </material>
     </collision>
   </link>

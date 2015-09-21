@@ -2,11 +2,12 @@
 <robot name="Ragnar" xmlns:xacro="http://ros.org/wiki/xacro">
   
 
-  <link name="base_link">
+  <link name="base_link"/>
+
+  <link name="base_link2">
     <inertial>
       <origin xyz="-4.80572213006859E-06 9.64495107789746E-06 -0.0184680705713898" rpy="0 0 0" />
-      <mass
-        value="26.5217124601092" />
+      <mass value="26.5217124601092" />
       <inertia ixx="0.936457909215975" ixy="-0.00108838510526368" ixz="1.58187182756307E-06"
         iyy="1.50216890338436" iyz="1.0107984651762E-05" izz="2.28323593907717" />
     </inertial>
@@ -16,7 +17,7 @@
         <mesh filename="package://ragnar_support/meshes/base_link.STL" />
       </geometry>
       <material name="">
-        <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+        <color rgba="0.5 0.5 0.5 1" />
       </material>
     </visual>
     <collision>
@@ -26,6 +27,13 @@
       </geometry>
     </collision>
   </link>
+
+ <joint name="base_rotate" type="fixed">
+    <origin xyz="0 0 0.05" rpy="0 0 1.57" />
+    <parent link="base_link" />
+    <child link="base_link2" />
+    <axis xyz="0 0 0" />
+  </joint>
 
 <xacro:include filename="$(find ragnar_support)/urdf/ragnar_upper2_macro.xacro"/>
   <xacro:ragnar_upper2 num="1" x="0.122" y="0.249" z="-0.0877" r="-0.577" p="-0.783" w="-1.311" d1="0.300" d2="0.550"/>
