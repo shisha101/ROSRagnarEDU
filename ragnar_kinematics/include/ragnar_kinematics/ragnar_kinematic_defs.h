@@ -9,16 +9,16 @@
  */
 
 // a : Base X
-#define RAGNAR_JOINT1_BASE_X  0.262f      // param 0
-#define RAGNAR_JOINT2_BASE_X  -0.262f     // param 1
-#define RAGNAR_JOINT3_BASE_X  -0.262f     // param 2
-#define RAGNAR_JOINT4_BASE_X  0.262f      // param 3
+#define RAGNAR_JOINT1_BASE_X  0.28f      // param 0
+#define RAGNAR_JOINT2_BASE_X  -0.28f     // param 1
+#define RAGNAR_JOINT3_BASE_X  -0.28f     // param 2
+#define RAGNAR_JOINT4_BASE_X  0.28f      // param 3
 
 // b : Base Y
-#define RAGNAR_JOINT1_BASE_Y  0.104f      // param 4
-#define RAGNAR_JOINT2_BASE_Y  0.104f      // param 5
-#define RAGNAR_JOINT3_BASE_Y  -0.104f     // param 6
-#define RAGNAR_JOINT4_BASE_Y  -0.104f     // param 7
+#define RAGNAR_JOINT1_BASE_Y  0.114f      // param 4
+#define RAGNAR_JOINT2_BASE_Y  0.114f      // param 5
+#define RAGNAR_JOINT3_BASE_Y  -0.114f     // param 6
+#define RAGNAR_JOINT4_BASE_Y  -0.114f     // param 7
 
 // rho : base_pan
 #define RAGNAR_JOINT1_BASE_PAN  -0.261799388f     // param 8
