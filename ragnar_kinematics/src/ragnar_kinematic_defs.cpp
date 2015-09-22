@@ -2,11 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-extern const float ragnar_params[32];
-extern const float ragnar_cosine_cache[32];
-extern const float ragnar_sine_cache[32];
-
-const float ragnar_kinematics::ragnar_params[32] =
+const double ragnar_kinematics::ragnar_params[32] =
 {
   RAGNAR_JOINT1_BASE_X,
   RAGNAR_JOINT2_BASE_X,
@@ -49,17 +45,17 @@ const float ragnar_kinematics::ragnar_params[32] =
   RAGNAR_JOINT4_FIXED_BRIDGE_ANGLE
 };
 
-const float ragnar_kinematics::ragnar_cosine_cache[32] =
+const double ragnar_kinematics::ragnar_cosine_cache[32] =
 {
-  0.0f,
-  0.0f,
-  0.0f,
-  0.0f,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
 
-  0.0f,
-  0.0f,
-  0.0f,
-  0.0f,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
 
   // rho
   std::cos(RAGNAR_JOINT1_BASE_PAN),
@@ -95,17 +91,17 @@ const float ragnar_kinematics::ragnar_cosine_cache[32] =
   std::cos(RAGNAR_JOINT4_FIXED_BRIDGE_ANGLE)
 };
 
-const float ragnar_kinematics::ragnar_sine_cache[32] =
+const double ragnar_kinematics::ragnar_sine_cache[32] =
 {
-  0.0f,
-  0.0f,
-  0.0f,
-  0.0f,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
 
-  0.0f,
-  0.0f,
-  0.0f,
-  0.0f,
+  0.0,
+  0.0,
+  0.0,
+  0.0,
 
   // rho
   std::sin(RAGNAR_JOINT1_BASE_PAN),

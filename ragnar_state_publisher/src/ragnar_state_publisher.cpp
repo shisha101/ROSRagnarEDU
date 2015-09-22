@@ -3,13 +3,13 @@
 #include "tf/transform_listener.h"
 #include "ragnar_kinematics/ragnar_kinematic_defs.h"
 
-static tf::Vector3 toTF(const Eigen::Vector3f& v)
+static tf::Vector3 toTF(const Eigen::Vector3d& v)
 {
   return tf::Vector3(v(1), v(0), v(2));
 }
 
-static void calculateDirectedTransform(const Eigen::Vector3f& start,
-                                       const Eigen::Vector3f& stop,
+static void calculateDirectedTransform(const Eigen::Vector3d& start,
+                                       const Eigen::Vector3d& stop,
                                        const tf::Vector3 z_axis,
                                        tf::Transform& transform)
 {
@@ -39,9 +39,9 @@ static void calculateDirectedTransform(const Eigen::Vector3f& start,
 }
 
 static
-void calculateLinkTransforms(const Eigen::Vector3f& a,
-                             const Eigen::Vector3f& b,
-                             const Eigen::Vector3f& c,
+void calculateLinkTransforms(const Eigen::Vector3d& a,
+                             const Eigen::Vector3d& b,
+                             const Eigen::Vector3d& c,
                              const tf::Vector3 z_axis,
                              tf::Transform& upper_tf,
                              tf::Transform& lower_tf)
@@ -89,10 +89,10 @@ void rsp::RagnarStatePublisher::updateJointPosition(const sensor_msgs::JointStat
 {
   ROS_INFO("Handling new joint state, calculating tf");
   // using joint states, calculate forward kinematics of ragnar
-  float actuators[4] = {joints->position[0], joints->position[1],
+  double actuators[4] = {joints->position[0], joints->position[1],
                         joints->position[2], joints->position[3]};
 
-  float pose[4];
+  double pose[4];
 
   if (!ragnar_kinematics::forward_kinematics(actuators, pose))
   {
