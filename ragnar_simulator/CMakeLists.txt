@@ -131,12 +131,17 @@ include_directories(
 add_executable(ragnar_simulator_node src/ragnar_simulator_node.cpp
                                      src/ragnar_simulator.cpp)
 
+add_executable(ragnar_simulator_test_node src/ragnar_simulator_test_node.cpp)
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(ragnar_simulator_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(ragnar_simulator_node
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(ragnar_simulator_test_node
   ${catkin_LIBRARIES}
 )
 

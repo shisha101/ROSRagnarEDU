@@ -4,23 +4,30 @@
 #include <vector>
 #include <string>
 
+#include <trajectory_msgs/JointTrajectory.h>
+
 namespace ragnar_simulator
 {
 
 class RagnarSimulator
 {
 public:
-  RagnarSimulator();
+  RagnarSimulator(const std::vector<double>& seed_pose);
 
   const std::vector<std::string>& getJointNames() const { return joint_names_; }
 
-  const std::vector<double>& getJointPositions() const { return joint_positions_; }
-
-  void setJointPositions(const std::vector<double>& new_state);
+  // Initializes trajectory, start time, and position fields
+  bool setTrajectory(const trajectory_msgs::JointTrajectory& new_trajectory);
+  // Computes the robot position at a given time based on the currently active
+  // trajectory
+  bool computeTrajectoryPosition(const ros::Time& tm, std::vector<double>& output) const;
 
 private:
   std::vector<std::string> joint_names_;
-  std::vector<double> joint_positions_;
+  // State 
+  trajectory_msgs::JointTrajectory traj_;
+  std::vector<double> traj_start_position_; 
+  ros::Time traj_start_time_;
 };
 
 }
