@@ -40,7 +40,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <visual>
@@ -49,7 +49,7 @@
         <cylinder length="0.3" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <collision>
@@ -58,7 +58,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </collision>
     <collision>
@@ -67,7 +67,7 @@
         <cylinder length="0.3" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </collision>
   </link>
@@ -147,7 +147,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <visual>
@@ -156,7 +156,7 @@
         <cylinder length="0.3" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <collision>
@@ -165,7 +165,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </collision>
     <collision>
@@ -174,7 +174,7 @@
         <cylinder length="0.3" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </collision>
   </link>
@@ -254,7 +254,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <visual>
@@ -263,7 +263,7 @@
         <cylinder length="0.3" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <collision>
@@ -272,7 +272,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </collision>
     <collision>
@@ -281,7 +281,7 @@
         <cylinder length="0.3" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </collision>
   </link>
@@ -361,7 +361,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <visual>
@@ -370,7 +370,7 @@
         <cylinder length="0.3" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </visual>
     <collision>
@@ -379,7 +379,7 @@
         <cylinder length="0.1" radius="0.04"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </collision>
     <collision>
@@ -388,7 +388,7 @@
         <cylinder length="0.3" radius="0.02"/>
       </geometry>
       <material name="">
-        <color rgba="0.65 0.65 0.65 1"/>
+        <color rgba="0.5 0.5 0.5 1"/>
       </material>
     </collision>
   </link>
@@ -483,23 +483,23 @@
   </joint>
   <link name="ee_link_y">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="1.57 0 1.57" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://ragnar_support/meshes/ee_link_y.STL"/>
+        <mesh filename="package://ragnar_support/meshes/ragnar_ee.STL"/>
       </geometry>
       <material name="">
         <color rgba="1 0 0 1"/>
       </material>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="1.57 0 1.57" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://ragnar_support/meshes/ee_link_y.STL"/>
+        <mesh filename="package://ragnar_support/meshes/ragnar_ee.STL"/>
       </geometry>
     </collision>
   </link>
   <joint name="ee_joint_yaw" type="revolute">
-    <origin rpy="5.55111512312578E-17 -2.77555756156289E-17 0" xyz="0 0 0"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="ee_link_p"/>
     <child link="ee_link_y"/>
     <axis xyz="0 -1 0"/>

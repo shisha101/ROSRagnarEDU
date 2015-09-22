@@ -50,6 +50,22 @@ void calculateLinkTransforms(const Eigen::Vector3d& a,
   calculateDirectedTransform(b, c, z_axis, lower_tf);
 }
 
+void calculateEELinkTransform(const ragnar_kinematics::IntermediatePoints::ArmMatrixd& c, tf::Transform& ee_tf)
+{
+  double x,y,z;
+  x=y=z=0;
+  tf::Vector3 center;
+  for(int i = 0; i < 4; ++i)
+  {
+    x+=c(1,i);
+    y+=c(0,i);
+    z+=(c(2,i) -0.05);
+  }
+  center.setX(x/4.0);
+  center.setY(y/4.0);
+  center.setZ(z/4.0);
+  ee_tf.setOrigin(center);
+}
 
 namespace rsp = ragnar_state_publisher;
 
@@ -106,7 +122,7 @@ void rsp::RagnarStatePublisher::updateJointPosition(const sensor_msgs::JointStat
 
   // using intermediate points, calculate transform to each link in model
 
-  tf::Transform upper_link, lower_link;
+  tf::Transform upper_link, lower_link, ee_link, base_link;
   // Joint 1
   calculateLinkTransforms(pts.A.col(0), pts.B.col(0), pts.C.col(0), zi_[0], upper_link, lower_link);
   tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
@@ -147,6 +163,21 @@ void rsp::RagnarStatePublisher::updateJointPosition(const sensor_msgs::JointStat
                                                      joints->header.stamp,
                                                      "base_link",
                                                      "lower_arm_4_yaw"));
+  // EE link
+  ee_link.setIdentity();
+  calculateEELinkTransform(pts.C,ee_link);
+  tf_broadcaster_.sendTransform(tf::StampedTransform(ee_link,
+                                                     joints->header.stamp,
+                                                     "base_link",
+                                                     "ee_link_y"));
+
+  base_link.setIdentity();
+  base_link.setOrigin(tf::Vector3(0.0, 0.0, 0.05));
+  tf_broadcaster_.sendTransform(tf::StampedTransform(base_link,
+                                                     joints->header.stamp,
+                                                     "base_link",
+                                                     "base_link2"));
+
   // world -> base_link
   tf::Transform world_tf = tf::Transform::getIdentity();
   tf_broadcaster_.sendTransform(tf::StampedTransform(world_tf,
