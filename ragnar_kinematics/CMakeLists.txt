@@ -31,9 +31,17 @@ target_link_libraries(ragnar_kinematics
 
 add_executable(ragnar_kinematics_node src/ragnar_test_demo.cpp)
 
+add_executable(ragnar_demo_motions src/ragnar_demo_motions.cpp)
+
+
 target_link_libraries(ragnar_kinematics_node
   ragnar_kinematics
- ${catkin_LIBRARIES}
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(ragnar_demo_motions
+  ragnar_kinematics
+  ${catkin_LIBRARIES}
 )
 
 #############
