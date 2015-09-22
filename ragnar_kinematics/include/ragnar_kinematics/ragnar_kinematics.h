@@ -6,24 +6,24 @@
 namespace ragnar_kinematics
 {
 
-bool inverse_kinematics(const float cartesian_mm[], float actuator_mm[]);
-bool forward_kinematics(const float actuator_mm[], float cartesian_mm[]);
+bool inverse_kinematics(const double cartesian_mm[], double actuator_mm[]);
+bool forward_kinematics(const double actuator_mm[], double cartesian_mm[]);
 
 struct IntermediatePoints
 {
   const static int N_ARMS = 4;
   const static int N_DIMS = 3;
-  typedef Eigen::Matrix<float, N_DIMS, N_ARMS> ArmMatrixf;
+  typedef Eigen::Matrix<double, N_DIMS, N_ARMS> ArmMatrixd;
 
-  ArmMatrixf A; // position of motors
-  ArmMatrixf B; // position of elbow
-  ArmMatrixf C; // position of mount to eff plate
+  ArmMatrixd A; // position of motors
+  ArmMatrixd B; // position of elbow
+  ArmMatrixd C; // position of mount to eff plate
 
   // Alignment support
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
-bool calcIntermediatePoints(const float actuator_mm[], const float cartesian_mm[],
+bool calcIntermediatePoints(const double actuator_mm[], const double cartesian_mm[],
                             IntermediatePoints& pts);
 
 }

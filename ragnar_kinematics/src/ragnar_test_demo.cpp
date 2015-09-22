@@ -5,7 +5,7 @@
 #include <visualization_msgs/MarkerArray.h>
 #include <sensor_msgs/JointState.h>
 
-geometry_msgs::Point fromVec(const Eigen::Vector3f& v)
+geometry_msgs::Point fromVec(const Eigen::Vector3d& v)
 {
   geometry_msgs::Point pt;
   pt.x = v(1); pt.y = v(0); pt.z = v(2) - 0.05;
@@ -13,9 +13,9 @@ geometry_msgs::Point fromVec(const Eigen::Vector3f& v)
 }
 
 visualization_msgs::Marker
-makeMarker(const Eigen::Vector3f& a,
-           const Eigen::Vector3f& b,
-           const Eigen::Vector3f& c,
+makeMarker(const Eigen::Vector3d& a,
+           const Eigen::Vector3d& b,
+           const Eigen::Vector3d& c,
            const std::string& ns)
 {
   visualization_msgs::Marker marker;
@@ -53,7 +53,7 @@ makeMarker(const Eigen::Vector3f& a,
   marker.lifetime = ros::Duration(0);
   marker.frame_locked = false;
 
-  marker.points.push_back(fromVec(Eigen::Vector3f(0, 0, 0)));
+  marker.points.push_back(fromVec(Eigen::Vector3d(0, 0, 0)));
   marker.points.push_back(fromVec(a));
   marker.points.push_back(fromVec(b));
   marker.points.push_back(fromVec(c));
@@ -109,7 +109,7 @@ int main(int argc, char** argv)
     }
     // Parse out line
     std::string action;
-    float args[4];
+    double args[4];
 
     std::istringstream ss (line);
 
@@ -124,8 +124,8 @@ int main(int argc, char** argv)
     // Dispatch call
     if (action == std::string("fk"))
     {
-      float joints[4];
-      float pose[4];
+      double joints[4];
+      double pose[4];
 
       joints[0] = args[0];
       joints[1] = args[1];
@@ -143,8 +143,8 @@ int main(int argc, char** argv)
     }
     else if (action == std::string("ik"))
     {
-      float pose[4];
-      float joints[4];
+      double pose[4];
+      double joints[4];
 
       pose[0] = args[0];
       pose[1] = args[1];
@@ -162,8 +162,8 @@ int main(int argc, char** argv)
     }
     else if (action == std::string("ikp"))
     {
-      float pose[4];
-      float joints[4];
+      double pose[4];
+      double joints[4];
 
       pose[0] = args[0];
       pose[1] = args[1];
@@ -194,20 +194,20 @@ int main(int argc, char** argv)
     }
     else if (action == std::string("circle"))
     {
-      float r = 0.2f;
+      double r = 0.2f;
       for (int i = 0; i < 360; ++i)
       {
-        float theta = static_cast<float>(i) * M_PI / 180.0;
-        float x = std::cos(theta) * r;
-        float y = std::sin(theta) * r;
-        float z = -0.3;
+        double theta = static_cast<double>(i) * M_PI / 180.0;
+        double x = std::cos(theta) * r;
+        double y = std::sin(theta) * r;
+        double z = -0.3;
 
-        float joints[4];
-        float pose[4];
+        double joints[4];
+        double pose[4];
         pose[0] = x;
         pose[1] = y;
         pose[2] = z;
-        pose[3] = 0.0f;
+        pose[3] = 0.0;
         if (!ragnar_kinematics::inverse_kinematics(pose, joints))
         {
           ROS_WARN("Failed IK");
