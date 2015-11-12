@@ -7,6 +7,7 @@
 
 #include <ros_ragnar/ragnar_message_manager.h>
 #include <ros_ragnar/ragnar_joint_feedback_message.h>
+#include <simple_message/joint_feedback.h>
 
 int DEFAULT_TCP_PORT = 11002;
 
@@ -26,32 +27,26 @@ int main(int argc, char** argv)
   pnh.param<int>("tcp_port", tcp_port, DEFAULT_TCP_PORT);
   pnh.param<std::string>("ip", ip_addr, "");
 
-  //industrial::tcp_client::TcpClient client;
   RagnarClient client;
 
   ragnar_joint_feedback::RagnarJointFeedbackHandler feedback_handler;
+  feedback_handler.setNodeHandle(nh);
 
   if(!ip_addr.empty())
   {
-    //client.init((char*)ip_addr.c_str(), tcp_port);
-    std::vector<std::string> joint_names;
-    joint_names.push_back("J1");
-    joint_names.push_back("J2");
-    joint_names.push_back("J3");
-    joint_names.push_back("J4");
+    // make socket connection
     client.init(ip_addr, tcp_port);
-    client.init(client.get_connection(),joint_names);
+
+    // add message handler to manager
+    feedback_handler.setCBConnection(client.get_connection());
+    client.add_handler(&feedback_handler);
+
+    // run manager (blocking call, does not return)
+    client.run();
+
+    ros::waitForShutdown();
   }
 
-  client.add_handler(&feedback_handler);
 
-  client.run();
-
-  while(ros::ok())
-  {  
-    //client.receiveMsg();
-  }
-
-  ros::waitForShutdown();
   return 0;
 }

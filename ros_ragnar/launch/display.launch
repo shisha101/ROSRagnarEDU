@@ -1,0 +1,7 @@
+<launch>
+<node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find ragnar_support)/urdf.rviz" />
+</launch>

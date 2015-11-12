@@ -33,7 +33,7 @@
     <child link="base_link2"/>
     <axis xyz="0 0 0"/>
   </joint>
-  <link name="upper_arm_1">
+  <link name="upper_arm_4">
     <visual>
       <origin rpy="0 1.57 0" xyz="0 0 0"/>
       <geometry>
@@ -71,15 +71,17 @@
       </material>
     </collision>
   </link>
-  <joint name="a1_j1" type="revolute">
+  <joint name="a4_j1" type="revolute">
     <origin rpy="-0.577 -0.783 -1.311" xyz="0.122 0.249 -0.0877"/>
     <parent link="base_link2"/>
-    <child link="upper_arm_1"/>
+    <child link="upper_arm_4"/>
     <axis xyz="-1.0 0 0"/>
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>
-  <link name="lower_arm_1_pitch"/>
-  <link name="lower_arm_1_yaw">
+  <!--xacro:include filename="$(find ragnar_support)/urdf/Ragnar_lower_macro.xacro"/>
+    <xacro:ragnar_lower prefix=""/-->
+  <link name="lower_arm_4_pitch"/>
+  <link name="lower_arm_4_yaw">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -126,124 +128,17 @@
       </material>
     </collision>
   </link>
-  <joint name="a1_j2_pitch" type="revolute">
+  <joint name="a4_j2_pitch" type="revolute">
     <origin rpy="0 0 0" xyz="0 0.3 0"/>
-    <parent link="upper_arm_1"/>
-    <child link="lower_arm_1_pitch"/>
+    <parent link="upper_arm_4"/>
+    <child link="lower_arm_4_pitch"/>
     <axis xyz="-1.0 0 0"/>
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>
-  <joint name="a1_j2_yaw" type="revolute">
+  <joint name="a4_j2_yaw" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="lower_arm_1_pitch"/>
-    <child link="lower_arm_1_yaw"/>
-    <axis xyz="0 0 1.0"/>
-    <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
-  </joint>
-  <link name="upper_arm_2">
-    <visual>
-      <origin rpy="0 1.57 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.1" radius="0.04"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.5 0.5 0.5 1"/>
-      </material>
-    </visual>
-    <visual>
-      <origin rpy="1.57 0 0" xyz="0 0.15 0"/>
-      <geometry>
-        <cylinder length="0.3" radius="0.02"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.5 0.5 0.5 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin rpy="0 1.57 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.1" radius="0.04"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.5 0.5 0.5 1"/>
-      </material>
-    </collision>
-    <collision>
-      <origin rpy="1.57 0 0" xyz="0 0.15 0"/>
-      <geometry>
-        <cylinder length="0.3" radius="0.02"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.5 0.5 0.5 1"/>
-      </material>
-    </collision>
-  </link>
-  <joint name="a2_j1" type="revolute">
-    <origin rpy="-2.698 -0.788 -1.834" xyz="-0.122 0.249 -0.0877"/>
-    <parent link="base_link2"/>
-    <child link="upper_arm_2"/>
-    <axis xyz="-1.0 0 0"/>
-    <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
-  </joint>
-  <link name="lower_arm_2_pitch"/>
-  <link name="lower_arm_2_yaw">
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <geometry>
-        <sphere radius="0.03"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.75 0.75 0.75 1"/>
-      </material>
-    </visual>
-    <visual>
-      <origin rpy="1.57 0 0" xyz="0 0.275 0"/>
-      <geometry>
-        <cylinder length="0.55" radius="0.02"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.75 0.75 0.75 1"/>
-      </material>
-    </visual>
-    <visual>
-      <origin rpy="0 0 0" xyz="0 0.55 0"/>
-      <geometry>
-        <sphere radius="0.03"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.75 0.75 0.7 1"/>
-      </material>
-    </visual>
-    <collision>
-      <origin rpy="0 1.57 0" xyz="0 0 0"/>
-      <geometry>
-        <cylinder length="0.1" radius="0.04"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.75 0.75 0.75 1"/>
-      </material>
-    </collision>
-    <collision>
-      <origin rpy="1.57 0 0" xyz="0 0.275 0"/>
-      <geometry>
-        <cylinder length="0.55" radius="0.02"/>
-      </geometry>
-      <material name="">
-        <color rgba="0.75 0.75 0.75 1"/>
-      </material>
-    </collision>
-  </link>
-  <joint name="a2_j2_pitch" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0.3 0"/>
-    <parent link="upper_arm_2"/>
-    <child link="lower_arm_2_pitch"/>
-    <axis xyz="-1.0 0 0"/>
-    <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
-  </joint>
-  <joint name="a2_j2_yaw" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="lower_arm_2_pitch"/>
-    <child link="lower_arm_2_yaw"/>
+    <parent link="lower_arm_4_pitch"/>
+    <child link="lower_arm_4_yaw"/>
     <axis xyz="0 0 1.0"/>
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>
@@ -286,12 +181,14 @@
     </collision>
   </link>
   <joint name="a3_j1" type="revolute">
-    <origin rpy="-0.456 -0.783 1.831" xyz="-0.122 -0.249 -0.0877"/>
+    <origin rpy="-2.698 -0.788 -1.834" xyz="-0.122 0.249 -0.0877"/>
     <parent link="base_link2"/>
     <child link="upper_arm_3"/>
     <axis xyz="-1.0 0 0"/>
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>
+  <!--xacro:include filename="$(find ragnar_support)/urdf/Ragnar_lower_macro.xacro"/>
+    <xacro:ragnar_lower prefix=""/-->
   <link name="lower_arm_3_pitch"/>
   <link name="lower_arm_3_yaw">
     <visual>
@@ -354,7 +251,7 @@
     <axis xyz="0 0 1.0"/>
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>
-  <link name="upper_arm_4">
+  <link name="upper_arm_2">
     <visual>
       <origin rpy="0 1.57 0" xyz="0 0 0"/>
       <geometry>
@@ -392,15 +289,17 @@
       </material>
     </collision>
   </link>
-  <joint name="a4_j1" type="revolute">
-    <origin rpy="-2.531 -0.788 1.307" xyz="0.122 -0.249 -0.0877"/>
+  <joint name="a2_j1" type="revolute">
+    <origin rpy="-0.456 -0.783 1.831" xyz="-0.122 -0.249 -0.0877"/>
     <parent link="base_link2"/>
-    <child link="upper_arm_4"/>
+    <child link="upper_arm_2"/>
     <axis xyz="-1.0 0 0"/>
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>
-  <link name="lower_arm_4_pitch"/>
-  <link name="lower_arm_4_yaw">
+  <!--xacro:include filename="$(find ragnar_support)/urdf/Ragnar_lower_macro.xacro"/>
+    <xacro:ragnar_lower prefix=""/-->
+  <link name="lower_arm_2_pitch"/>
+  <link name="lower_arm_2_yaw">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
@@ -447,17 +346,126 @@
       </material>
     </collision>
   </link>
-  <joint name="a4_j2_pitch" type="revolute">
+  <joint name="a2_j2_pitch" type="revolute">
     <origin rpy="0 0 0" xyz="0 0.3 0"/>
-    <parent link="upper_arm_4"/>
-    <child link="lower_arm_4_pitch"/>
+    <parent link="upper_arm_2"/>
+    <child link="lower_arm_2_pitch"/>
     <axis xyz="-1.0 0 0"/>
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>
-  <joint name="a4_j2_yaw" type="revolute">
+  <joint name="a2_j2_yaw" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="lower_arm_4_pitch"/>
-    <child link="lower_arm_4_yaw"/>
+    <parent link="lower_arm_2_pitch"/>
+    <child link="lower_arm_2_yaw"/>
+    <axis xyz="0 0 1.0"/>
+    <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
+  </joint>
+  <link name="upper_arm_1">
+    <visual>
+      <origin rpy="0 1.57 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.04"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="1.57 0 0" xyz="0 0.15 0"/>
+      <geometry>
+        <cylinder length="0.3" radius="0.02"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.04"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+    <collision>
+      <origin rpy="1.57 0 0" xyz="0 0.15 0"/>
+      <geometry>
+        <cylinder length="0.3" radius="0.02"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="a1_j1" type="revolute">
+    <origin rpy="-2.531 -0.788 1.307" xyz="0.122 -0.249 -0.0877"/>
+    <parent link="base_link2"/>
+    <child link="upper_arm_1"/>
+    <axis xyz="-1.0 0 0"/>
+    <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
+  </joint>
+  <!--xacro:include filename="$(find ragnar_support)/urdf/Ragnar_lower_macro.xacro"/>
+    <xacro:ragnar_lower prefix=""/-->
+  <link name="lower_arm_1_pitch"/>
+  <link name="lower_arm_1_yaw">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.75 1"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="1.57 0 0" xyz="0 0.275 0"/>
+      <geometry>
+        <cylinder length="0.55" radius="0.02"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.75 1"/>
+      </material>
+    </visual>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0.55 0"/>
+      <geometry>
+        <sphere radius="0.03"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 1.57 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.04"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.75 1"/>
+      </material>
+    </collision>
+    <collision>
+      <origin rpy="1.57 0 0" xyz="0 0.275 0"/>
+      <geometry>
+        <cylinder length="0.55" radius="0.02"/>
+      </geometry>
+      <material name="">
+        <color rgba="0.75 0.75 0.75 1"/>
+      </material>
+    </collision>
+  </link>
+  <joint name="a1_j2_pitch" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0.3 0"/>
+    <parent link="upper_arm_1"/>
+    <child link="lower_arm_1_pitch"/>
+    <axis xyz="-1.0 0 0"/>
+    <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
+  </joint>
+  <joint name="a1_j2_yaw" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="lower_arm_1_pitch"/>
+    <child link="lower_arm_1_yaw"/>
     <axis xyz="0 0 1.0"/>
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>

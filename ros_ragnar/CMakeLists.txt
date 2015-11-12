@@ -160,7 +160,6 @@ add_executable(ragnar_server_node src/ragnar_server.cpp
 
 add_executable(ragnar_client_node
   src/ragnar_client.cpp
-  src/joint_data.cpp
   src/ragnar_joint_feedback_message.cpp
 
 )

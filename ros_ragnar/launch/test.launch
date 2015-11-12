@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <param name="robot_description" textfile="$(find ragnar_support)/urdf/ragnar.urdf" />
+
+  <node name="ragnar_drivers" pkg="ros_ragnar" type="ragnar_client_node" >
+    <param name="ip" value="192.168.1.240"/>
+    <param name="robot_ip_address" value="192.168.1.240"/>
+    <param name="port" value="11002"/>
+  </node>
+
+
+  <!-- Ragnar State Publisher -->
+  <node name="ragnar_state_publisher" pkg="ragnar_state_publisher" type="ragnar_state_publisher_node" />
+  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ragnar_support)/urdf.rviz" />
+
+
+</launch>
