@@ -26,21 +26,21 @@ bool RagnarJointFeedbackHandler::internalCB(simple_message::SimpleMessage &in)
   joint_data::JointData data;
 
   joint_msg.getPositions(data);
-  for(int i = 0; i < data.getMaxNumJoints(); ++i)
+  for(int i = 3; i >= 0; --i)
   {
-    msg.position.push_back((data.getJoint(i) * M_PI / 180.0 ));
+    msg.position.push_back((-data.getJoint(i) * M_PI / 180.0 ));
   }
 
   joint_msg.getVelocities(data);
-  for(int i = 0; i < data.getMaxNumJoints(); ++i)
+  for(int i = 3; i >= 0; --i)
   {
-    msg.velocity.push_back(data.getJoint(i) * M_PI / 180.0);
+    msg.velocity.push_back(-data.getJoint(i) * M_PI / 180.0);
   }
 
   joint_msg.getAccelerations(data);
-  for(int i = 0; i < data.getMaxNumJoints(); ++i)
+  for(int i = 3; i >= 0; --i)
   {
-    msg.effort.push_back(data.getJoint(i) * M_PI / 180.0);
+    msg.effort.push_back(-data.getJoint(i) * M_PI / 180.0);
   }
 
   joint_states_pub_.publish(msg);
