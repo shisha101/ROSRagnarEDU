@@ -8,6 +8,8 @@ find_package(catkin REQUIRED
     roscpp
     simple_message
     rospy
+    sensor_msgs
+    industrial_utils
 )
 
 ## System dependencies are found with CMake's conventions
@@ -155,6 +157,25 @@ add_executable(ragnar_server_node src/ragnar_server.cpp
    ${catkin_LIBRARIES}
  )
 
+
+add_executable(ragnar_client_node
+  src/ragnar_client.cpp
+  src/joint_data.cpp
+  src/ragnar_joint_feedback_message.cpp
+
+)
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+ add_dependencies(ragnar_client_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Specify libraries to link a library or executable target against
+ target_link_libraries(ragnar_client_node
+   industrial_robot_client
+   simple_message
+   ${PROJECT_NAME}
+   ${catkin_LIBRARIES}
+ )
 #############
 ## Install ##
 #############
