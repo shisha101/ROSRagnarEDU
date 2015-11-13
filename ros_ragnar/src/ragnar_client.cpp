@@ -5,7 +5,6 @@
 
 #include <industrial_robot_client/robot_state_interface.h>
 
-#include <ros_ragnar/ragnar_message_manager.h>
 #include <ros_ragnar/ragnar_joint_feedback_message.h>
 #include <simple_message/joint_feedback.h>
 
@@ -29,7 +28,7 @@ int main(int argc, char** argv)
 
   RagnarClient client;
 
-  ragnar_joint_feedback::RagnarJointFeedbackHandler feedback_handler;
+  ros_ragnar::RagnarJointFeedbackHandler feedback_handler;
   feedback_handler.setNodeHandle(nh);
 
   if(!ip_addr.empty())

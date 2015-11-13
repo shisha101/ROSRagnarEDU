@@ -12,21 +12,26 @@
 
 #include <ros/ros.h>
 
-using namespace industrial;
 
-namespace ragnar_joint_feedback
+namespace ros_ragnar
 {
 
-class RagnarJointFeedbackHandler : public message_handler::MessageHandler
+class RagnarJointFeedbackHandler : public industrial::message_handler::MessageHandler
 {
 
 public:
   RagnarJointFeedbackHandler();
   ~RagnarJointFeedbackHandler(){}
 
-  using message_handler::MessageHandler::init;
-  bool internalCB(simple_message::SimpleMessage &in);
-  void setCBConnection(industrial::smpl_msg_connection::SmplMsgConnection *connection){init(simple_message::StandardMsgTypes::JOINT_FEEDBACK, connection); ROS_INFO("done setting up handler");}
+  using industrial::message_handler::MessageHandler::init;
+  
+  bool internalCB(industrial::simple_message::SimpleMessage &in);
+  
+  void setCBConnection(industrial::smpl_msg_connection::SmplMsgConnection *connection)
+  {
+    init(industrial::simple_message::StandardMsgTypes::JOINT_FEEDBACK, connection); 
+    ROS_INFO("done setting up handler");
+  }
 
   bool setNodeHandle(ros::NodeHandle& nh){nh_ = nh;}
 private:

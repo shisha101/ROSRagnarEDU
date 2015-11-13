@@ -126,55 +126,39 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 ## Declare a C++ library
- add_library(${PROJECT_NAME}
-   src/ragnar_message_manager.cpp
-   src/ragnar_position_message_handler.cpp
- )
+ # add_library(${PROJECT_NAME}
+ # )
 
- target_link_libraries(${PROJECT_NAME}
-   ${catkin_LIBRARIES}
- )
-
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
-# add_dependencies(ros_ragnar ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Declare a C++ executable
-add_executable(ragnar_server_node src/ragnar_server.cpp
-
-)
-
-## Add cmake target dependencies of the executable
-## same as for the library above
- add_dependencies(ragnar_server_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
- target_link_libraries(ragnar_server_node
-   industrial_robot_client
-   simple_message
-   ${PROJECT_NAME}
-   ${catkin_LIBRARIES}
- )
-
-
+### Joint Listener
 add_executable(ragnar_client_node
   src/ragnar_client.cpp
   src/ragnar_joint_feedback_message.cpp
-
 )
 
-## Add cmake target dependencies of the executable
-## same as for the library above
- add_dependencies(ragnar_client_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(ragnar_client_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-## Specify libraries to link a library or executable target against
- target_link_libraries(ragnar_client_node
-   industrial_robot_client
-   simple_message
-   ${PROJECT_NAME}
-   ${catkin_LIBRARIES}
- )
+target_link_libraries(ragnar_client_node
+  industrial_robot_client
+  simple_message
+  # ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+
+### Joint Streamer
+add_executable(ragnar_streamer_node
+  src/ragnar_joint_streamer.cpp
+  src/ragnar_joint_streamer_node.cpp
+)
+
+add_dependencies(ragnar_streamer_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(ragnar_streamer_node
+  industrial_robot_client
+  simple_message
+  # ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+
 #############
 ## Install ##
 #############

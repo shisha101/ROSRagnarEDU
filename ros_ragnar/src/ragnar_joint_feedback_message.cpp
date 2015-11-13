@@ -3,8 +3,9 @@
 #include <sensor_msgs/JointState.h>
 #include <simple_message/joint_data.h>
 
-namespace ragnar_joint_feedback
+namespace ros_ragnar
 {
+  using namespace industrial;
 
 // Message handler
 RagnarJointFeedbackHandler::RagnarJointFeedbackHandler()
