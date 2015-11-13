@@ -10,10 +10,7 @@
 
 int DEFAULT_TCP_PORT = 11002;
 
-class RagnarClient : public industrial_robot_client::robot_state_interface::RobotStateInterface
-{
-
-};
+using industrial_robot_client::robot_state_interface::RobotStateInterface;
 
 int main(int argc, char** argv)
 {
@@ -26,7 +23,7 @@ int main(int argc, char** argv)
   pnh.param<int>("tcp_port", tcp_port, DEFAULT_TCP_PORT);
   pnh.param<std::string>("ip", ip_addr, "");
 
-  RagnarClient client;
+  RobotStateInterface client;
 
   ros_ragnar::RagnarJointFeedbackHandler feedback_handler;
   feedback_handler.setNodeHandle(nh);
@@ -45,7 +42,10 @@ int main(int argc, char** argv)
 
     ros::waitForShutdown();
   }
-
+  else
+  {
+    ROS_WARN("Ragnar feedback interface requires that the 'ip' parameter be set");
+  }
 
   return 0;
 }

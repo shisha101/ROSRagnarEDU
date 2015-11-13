@@ -132,15 +132,48 @@ static trajectory_msgs::JointTrajectory makeLineTrajectory()
   return traj;
 }
 
+static trajectory_msgs::JointTrajectory makePointTrajectory()
+{
+  using namespace trajectory_msgs;
+  // Header
+  JointTrajectory traj;
+  populateHeader(traj.header);
+
+  double pose[4] = {-0.1, -0.1, -0.3, 0.0};
+  double joints[4];
+
+  if (!ragnar_kinematics::inverse_kinematics(pose, joints))
+  {
+    throw std::runtime_error("Point trajectory failed");
+  }
+
+  JointTrajectoryPoint pt;  
+  pt.positions.assign(joints, joints+4);
+  pt.time_from_start = ros::Duration(1.0);
+  traj.points.push_back(pt);      
+  
+  return traj;
+}
+
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "ragnar_demo_motions");
 
   ros::NodeHandle nh;
-  ros::Publisher traj_pub = nh.advertise<trajectory_msgs::JointTrajectory>("joint_command", 1);
+  ros::Publisher traj_pub = nh.advertise<trajectory_msgs::JointTrajectory>("joint_path_command", 1);
 
   // trajectory_msgs::JointTrajectory traj = makeLineTrajectory();
-  trajectory_msgs::JointTrajectory traj = makeCircleTrajectory(); 
+  //trajectory_msgs::JointTrajectory traj = makeCircleTrajectory(); 
+  trajectory_msgs::JointTrajectory traj = makePointTrajectory();
+
+  std::vector<std::string> names;
+  names.push_back("joint_1");
+  names.push_back("joint_2");
+  names.push_back("joint_3");
+  names.push_back("joint_4");
+
+  traj.joint_names = names;
+
   ros::Duration(0.5).sleep();
 
   traj_pub.publish(traj);
