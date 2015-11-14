@@ -28,7 +28,7 @@ int main(int argc, char** argv)
   ros_ragnar::RagnarJointFeedbackHandler feedback_handler;
   feedback_handler.setNodeHandle(nh);
 
-  if(!ip_addr.empty())
+  if (!ip_addr.empty())
   {
     // make socket connection
     client.init(ip_addr, tcp_port);
@@ -44,7 +44,8 @@ int main(int argc, char** argv)
   }
   else
   {
-    ROS_WARN("Ragnar feedback interface requires that the 'ip' parameter be set");
+    ROS_WARN(
+        "Ragnar feedback interface requires that the 'ip' parameter be set");
   }
 
   return 0;

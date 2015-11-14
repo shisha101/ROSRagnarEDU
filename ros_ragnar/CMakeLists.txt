@@ -10,6 +10,7 @@ find_package(catkin REQUIRED
     rospy
     sensor_msgs
     industrial_utils
+    ragnar_kinematics
 )
 
 ## System dependencies are found with CMake's conventions
@@ -107,6 +108,7 @@ catkin_package(
   CATKIN_DEPENDS
     roscpp
     simple_message
+    ragnar_kinematics
 #  DEPENDS system_lib
 )
 
