@@ -6,7 +6,8 @@
     default="False" />
   <param
     name="robot_description"
-    textfile="$(find ragnar_support)/urdf/ragnar.urdf" />
+    command="$(find xacro)/xacro.py '$(find ragnar_support)/urdf/ragnar.xacro'" />
+
 
   <!-- Ragnar State Publisher -->
   <node

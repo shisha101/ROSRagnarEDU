@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
 <robot name="Ragnar" xmlns:xacro="http://ros.org/wiki/xacro">
   
-
   <link name="base_link"/>
 
   <link name="base_link2">
@@ -49,7 +48,7 @@
 <link name="ee_link_r">
     
   </link>
-  <joint name="ee_joint_roll" type="revolute">
+  <joint name="ee_joint_roll" type="floating">
     <origin xyz="0 0.550 0"
       rpy="0 0 0" />
     <parent link="lower_arm_1_yaw" />
@@ -61,7 +60,7 @@
   <link name="ee_link_p">
     
   </link>
-  <joint name="ee_joint_pitch" type="revolute">
+  <joint name="ee_joint_pitch" type="floating">
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="ee_link_r" />
     <child link="ee_link_p" />
@@ -85,7 +84,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="ee_joint_yaw" type="revolute">
+  <joint name="ee_joint_yaw" type="floating">
     <origin xyz="0 0 0" rpy="0 0 0" />
     <parent link="ee_link_p" />
     <child link="ee_link_y" />
