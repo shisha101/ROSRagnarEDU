@@ -1,6 +1,15 @@
 <?xml version="1.0" ?>
 <robot name="Ragnar" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find ragnar_support)/urdf/ragnar_upper2_macro.xacro"/>
   
+  <link name="world"/>
+
+  <joint name="world_to_ragnar" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" />
+  </joint>
+
   <link name="base_link"/>
 
   <link name="base_link2">
@@ -27,20 +36,16 @@
     </collision>
   </link>
 
- <joint name="base_rotate" type="fixed">
+ <joint name="base_rotate" type="floating">
     <origin xyz="0 0 0.05" rpy="0 0 1.57" />
     <parent link="base_link" />
     <child link="base_link2" />
     <axis xyz="0 0 0" />
   </joint>
 
-<xacro:include filename="$(find ragnar_support)/urdf/ragnar_upper2_macro.xacro"/>
   <xacro:ragnar_upper2 num="1" x="0.122" y="0.249" z="-0.0877" r="-0.577" p="-0.783" w="-1.311" d1="0.300" d2="0.550"/>
-<xacro:include filename="$(find ragnar_support)/urdf/ragnar_upper2_macro.xacro"/>
   <xacro:ragnar_upper2 num="2" x="-0.122" y="0.249" z="-0.0877" r="-2.698" p="-0.788" w="-1.834" d1="0.300" d2="0.550"/>
-<xacro:include filename="$(find ragnar_support)/urdf/ragnar_upper2_macro.xacro"/>
   <xacro:ragnar_upper2 num="3" x="-0.122" y="-0.249" z="-0.0877" r="-0.456" p="-0.783" w="1.831" d1="0.300" d2="0.550"/>
-<xacro:include filename="$(find ragnar_support)/urdf/ragnar_upper2_macro.xacro"/>
   <xacro:ragnar_upper2 num="4" x="0.122" y="-0.249" z="-0.0877" r="-2.531" p="-0.788" w="1.307" d1="0.300" d2="0.550"/>
 
 

@@ -71,7 +71,8 @@ namespace rsp = ragnar_state_publisher;
 
 
 
-rsp::RagnarStatePublisher::RagnarStatePublisher(const std::string& joints_topic)
+rsp::RagnarStatePublisher::RagnarStatePublisher(const std::string& joints_topic, const std::string& prefix)
+  : prefix_(prefix)
 {
   joint_sub_ = nh_.subscribe<sensor_msgs::JointState>(joints_topic, 1,
                       boost::bind(&rsp::RagnarStatePublisher::updateJointPosition,
@@ -86,18 +87,6 @@ rsp::RagnarStatePublisher::RagnarStatePublisher(const std::string& joints_topic)
   zi_.push_back(mat.getColumn(2));
   mat.setEulerYPR(-RAGNAR_JOINT4_BASE_PAN, 0, -RAGNAR_JOINT4_BASE_TILT);
   zi_.push_back(mat.getColumn(2));
-
-  /*
-  tf::TransformListener listener;
-  ros::Duration(0.5).sleep();
-  if(listener.waitForTransform("base_link2","base_link", ros::Time::now(), ros::Duration(3.0)))
-  {
-    listener.lookupTransform("base_link2","base_link",ros::Time::now(),base_transform_);
-  }
-  else
-  {
-    ROS_WARN("Could not find transform from base_link to base_link2");
-  }*/
 }
 
 void rsp::RagnarStatePublisher::updateJointPosition(const sensor_msgs::JointStateConstPtr& joints)
@@ -126,61 +115,61 @@ void rsp::RagnarStatePublisher::updateJointPosition(const sensor_msgs::JointStat
   calculateLinkTransforms(pts.A.col(0), pts.B.col(0), pts.C.col(0), zi_[0], upper_link, lower_link);
   tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "upper_arm_4"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "upper_arm_4"));
   tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "lower_arm_4_yaw"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "lower_arm_4_yaw"));
   // Joint 2
   calculateLinkTransforms(pts.A.col(1), pts.B.col(1), pts.C.col(1), zi_[1], upper_link, lower_link);
   tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "upper_arm_3"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "upper_arm_3"));
   tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "lower_arm_3_yaw"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "lower_arm_3_yaw"));
   // Joint 3
   calculateLinkTransforms(pts.A.col(2), pts.B.col(2), pts.C.col(2), zi_[2], upper_link, lower_link);
   tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "upper_arm_2"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "upper_arm_2"));
   tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "lower_arm_2_yaw"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "lower_arm_2_yaw"));
   // Joint 4
   calculateLinkTransforms(pts.A.col(3), pts.B.col(3), pts.C.col(3), zi_[3], upper_link, lower_link);
   tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "upper_arm_1"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "upper_arm_1"));
   tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "lower_arm_1_yaw"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "lower_arm_1_yaw"));
   // EE link
   ee_link.setIdentity();
   calculateEELinkTransform(pts.C,ee_link);
   tf_broadcaster_.sendTransform(tf::StampedTransform(ee_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "ee_link_y"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "ee_link_y"));
 
   base_link.setIdentity();
   base_link.setOrigin(tf::Vector3(0.0, 0.0, 0.05));
   tf_broadcaster_.sendTransform(tf::StampedTransform(base_link,
                                                      joints->header.stamp,
-                                                     "base_link",
-                                                     "base_link2"));
+                                                     prefix_ + "base_link",
+                                                     prefix_ + "base_link2"));
 
   // world -> base_link
-  tf::Transform world_tf = tf::Transform::getIdentity();
-  tf_broadcaster_.sendTransform(tf::StampedTransform(world_tf,
-                                                     joints->header.stamp,
-                                                     "world",
-                                                     "base_link"));
+  // tf::Transform world_tf = tf::Transform::getIdentity();
+  // tf_broadcaster_.sendTransform(tf::StampedTransform(world_tf,
+                                                     // joints->header.stamp,
+                                                     // prefix_ + "world",
+                                                     // prefix_ + "base_link"));
 }

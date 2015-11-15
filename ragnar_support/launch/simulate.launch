@@ -8,12 +8,16 @@
     name="robot_description"
     command="$(find xacro)/xacro.py '$(find ragnar_support)/urdf/ragnar.xacro'" />
 
-
   <!-- Ragnar State Publisher -->
   <node
     name="ragnar_state_publisher"
     pkg="ragnar_state_publisher"
     type="ragnar_state_publisher_node" />
+
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher" />
   
   <!-- Simulation Node -->
   <node
