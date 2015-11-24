@@ -49,30 +49,7 @@
   <xacro:ragnar_upper2 num="4" x="0.122" y="-0.249" z="-0.0877" r="-2.531" p="-0.788" w="1.307" d1="0.300" d2="0.550"/>
 
 
-
-<link name="ee_link_r">
-    
-  </link>
-  <joint name="ee_joint_roll" type="floating">
-    <origin xyz="0 0.550 0"
-      rpy="0 0 0" />
-    <parent link="lower_arm_1_yaw" />
-    <child link="ee_link_r" />
-    <axis xyz="0 0 1" />
-    <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
-  </joint>
-
-  <link name="ee_link_p">
-    
-  </link>
-  <joint name="ee_joint_pitch" type="floating">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="ee_link_r" />
-    <child link="ee_link_p" />
-    <axis xyz="1 0 0" />
-    <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
-  </joint>
-  <link name="ee_link_y">
+  <link name="ee_link">
     <visual>
       <origin xyz="0 0 0" rpy="1.57 0 1.57" />
       <geometry>
@@ -89,11 +66,9 @@
       </geometry>
     </collision>
   </link>
-  <joint name="ee_joint_yaw" type="floating">
+  <joint name="ee_joint" type="floating">
     <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="ee_link_p" />
-    <child link="ee_link_y" />
-    <axis xyz="0 -1 0" />
-<limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
+    <parent link="lower_arm_1" />
+    <child link="ee_link" />
   </joint>
 </robot>
