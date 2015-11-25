@@ -1,0 +1,14 @@
+<!-- 
+  Wrapper launch file for the Motoman specific robot_state node.
+-->
+<launch>
+  <!-- IP of robot -->
+  <arg name="robot_ip" />
+
+  <rosparam command="load" file="$(find ragnar_drivers)/config/ragnar_joint_names.yaml" />
+
+  <!-- load the correct version of the robot state node -->
+  <node name="ragnar_streaming_interface" pkg="ragnar_drivers" type="ragnar_streamer_node" output="screen">
+    <param name="robot_ip" value="$(arg robot_ip)"/>
+  </node>
+</launch>
