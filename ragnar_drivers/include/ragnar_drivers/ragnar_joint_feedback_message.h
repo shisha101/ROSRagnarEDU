@@ -12,7 +12,7 @@
 
 #include <ros/ros.h>
 
-namespace ros_ragnar
+namespace ragnar_drivers
 {
 
 class RagnarJointFeedbackHandler

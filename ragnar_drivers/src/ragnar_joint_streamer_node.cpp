@@ -1,4 +1,4 @@
-#include "ros_ragnar/ragnar_joint_streamer.h"
+#include "ragnar_drivers/ragnar_joint_streamer.h"
 
 #include <ros/ros.h>
 
@@ -16,7 +16,7 @@ int main(int argc, char** argv)
                  (int)industrial::simple_socket::StandardSocketPorts::MOTION);
 
   // Create streamer and run
-  ros_ragnar::RagnarTrajectoryStreamer streamer;
+  ragnar_drivers::RagnarTrajectoryStreamer streamer;
   streamer.init(robot_ip, port);
   streamer.run();
   return 0;

@@ -1,4 +1,4 @@
-#include "ros_ragnar/ragnar_joint_streamer.h"
+#include "ragnar_drivers/ragnar_joint_streamer.h"
 #include <ragnar_kinematics/ragnar_kinematics.h>
 
 // To simplify the massively complicated namespaces
@@ -106,7 +106,7 @@ static bool calc_ragnar_velocity(const std::vector<double>& start_pose,
   return true;
 }
 
-bool ros_ragnar::RagnarTrajectoryStreamer::transform(
+bool ragnar_drivers::RagnarTrajectoryStreamer::transform(
     const trajectory_msgs::JointTrajectoryPoint& pt_in,
     trajectory_msgs::JointTrajectoryPoint* pt_out)
 {
@@ -127,7 +127,7 @@ bool ros_ragnar::RagnarTrajectoryStreamer::transform(
 }
 
 //
-bool ros_ragnar::RagnarTrajectoryStreamer::trajectory_to_msgs(
+bool ragnar_drivers::RagnarTrajectoryStreamer::trajectory_to_msgs(
     const trajectory_msgs::JointTrajectoryConstPtr& traj,
     std::vector<JointTrajPtMessage>* msgs)
 {

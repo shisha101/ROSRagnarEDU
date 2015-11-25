@@ -4,7 +4,7 @@
 
   <param name="robot_description" textfile="$(find ragnar_support)/urdf/ragnar.urdf" />
 
-  <node name="ragnar_drivers" pkg="ros_ragnar" type="ragnar_client_node" >
+  <node name="ragnar_drivers" pkg="ragnar_drivers" type="ragnar_client_node" >
     <param name="ip" value="$(arg robot_ip)"/>
     <param name="port" value="11002"/>
   </node>

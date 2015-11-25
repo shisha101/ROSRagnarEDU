@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ros_ragnar)
+project(ragnar_drivers)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -176,7 +176,7 @@ target_link_libraries(ragnar_streamer_node
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS ros_ragnar ros_ragnar_node
+# install(TARGETS ragnar_drivers ragnar_drivers_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -201,7 +201,7 @@ target_link_libraries(ragnar_streamer_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_ros_ragnar.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_ragnar_drivers.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

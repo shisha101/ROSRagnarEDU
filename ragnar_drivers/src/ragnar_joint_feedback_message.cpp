@@ -1,9 +1,9 @@
 
-#include "ros_ragnar/ragnar_joint_feedback_message.h"
+#include "ragnar_drivers/ragnar_joint_feedback_message.h"
 #include <sensor_msgs/JointState.h>
 #include <simple_message/joint_data.h>
 
-namespace ros_ragnar
+namespace ragnar_drivers
 {
 using namespace industrial;
 

@@ -5,7 +5,7 @@
 
 #include <industrial_robot_client/robot_state_interface.h>
 
-#include <ros_ragnar/ragnar_joint_feedback_message.h>
+#include <ragnar_drivers/ragnar_joint_feedback_message.h>
 #include <simple_message/joint_feedback.h>
 
 int DEFAULT_TCP_PORT = 11002;
@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 
   RobotStateInterface client;
 
-  ros_ragnar::RagnarJointFeedbackHandler feedback_handler;
+  ragnar_drivers::RagnarJointFeedbackHandler feedback_handler;
   feedback_handler.setNodeHandle(nh);
 
   if (!ip_addr.empty())

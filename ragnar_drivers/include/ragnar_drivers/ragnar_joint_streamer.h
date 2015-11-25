@@ -3,7 +3,7 @@
 
 #include "industrial_robot_client/joint_trajectory_streamer.h"
 
-namespace ros_ragnar
+namespace ragnar_drivers
 {
 
 class RagnarTrajectoryStreamer

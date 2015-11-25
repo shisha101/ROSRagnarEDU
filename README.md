@@ -11,7 +11,7 @@ ROS Ragnar depends on the following core packages:
 ## Feedback and Visualization
 To launch a node that will listen to the robot feedback and display a visualization in rviz:
 ```
-roslaunch ros_ragnar ragnar_state_listener.launch [robot_ip:=xxx.xxx.xxx.xxx]
+roslaunch ragnar_drivers ragnar_state_listener.launch [robot_ip:=xxx.xxx.xxx.xxx]
 ```
 
 Note that the ip for this node defaults to `192.168.1.240`
@@ -19,7 +19,7 @@ Note that the ip for this node defaults to `192.168.1.240`
 ## Command Interface
 To launch a node that enables commanding the robot to follow trajectories:
 ```
-roslaunch ros_ragnar ragnar_streaming_interface.launch robot_ip:=xxx.xxx.xxx.xxx
+roslaunch ragnar_drivers ragnar_streaming_interface.launch robot_ip:=xxx.xxx.xxx.xxx
 ```
 
 Note that the robot listens on the ```joint_path_command``` topic with type ```trajectory_msgs::JointTrajectory```

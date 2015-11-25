@@ -5,10 +5,10 @@
   <!-- IP of robot (or PC running simulation) -->
   <arg name="robot_ip" />
 
-  <rosparam command="load" file="$(find ros_ragnar)/config/ragnar_joint_names.yaml" />
+  <rosparam command="load" file="$(find ragnar_drivers)/config/ragnar_joint_names.yaml" />
 
   <!-- load the correct version of the robot state node -->
-  <node name="ragnar_streaming_interface" pkg="ros_ragnar" type="ragnar_streamer_node" output="screen">
+  <node name="ragnar_streaming_interface" pkg="ragnar_drivers" type="ragnar_streamer_node" output="screen">
     <param name="robot_ip" value="$(arg robot_ip)"/>
   </node>
 </launch>
