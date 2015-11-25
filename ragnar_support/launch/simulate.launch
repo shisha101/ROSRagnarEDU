@@ -14,6 +14,7 @@
     pkg="ragnar_state_publisher"
     type="ragnar_state_publisher_node" />
 
+  <!-- Robot State Publisher -->
   <node
     name="robot_state_publisher"
     pkg="robot_state_publisher"
@@ -25,6 +26,12 @@
     pkg="ragnar_simulator"
     type="ragnar_simulator_node"
     output="screen"/>
+
+  <!-- 
+    If you have had other robots or joints in your scene, you would want
+    to bring up a 'joint_state_publisher' as well. There is currently an
+    issue with the ragnar state publisher that prevents this, however.
+  -->
 
   <node
     name="rviz"

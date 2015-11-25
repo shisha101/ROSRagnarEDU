@@ -6,7 +6,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "ragnar_sim_test");
 
   ros::NodeHandle nh;
-  ros::Publisher pub = nh.advertise<trajectory_msgs::JointTrajectory>("joint_command", 1);
+  ros::Publisher pub = nh.advertise<trajectory_msgs::JointTrajectory>("joint_path_command", 1);
 
 
   static double test_pt[] = {0.897913, -0.667189, -1.266242, -0.123857};

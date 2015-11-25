@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<launch>
+  <arg name="robot_ip" default="192.168.1.240"/>
+  <arg name="state_port" default="11002"/>
+
+  <!-- Load the workcell description to 'robot_description' -->
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find ragnar_support)/urdf/ragnar.xacro'" />
+
+  <!-- Loads State Listener, and Ragnar State Publisher -->
+  <include file="$(find ragnar_drivers)/launch/ragnar_state_listener.launch">
+    <arg name="robot_ip" value="$(arg robot_ip)" />
+    <arg name="port" value="$(arg state_port)" />
+  </include>
+
+  <!-- Load the joint-command-streamer and the joint names yaml -->
+  <include file="$(find ragnar_drivers)/launch/ragnar_streaming_interface.launch">
+    <arg name="robot_ip" value="$(arg robot_ip)"/>
+  </include>
+
+  <!-- 
+       If you have had other robots or joints in your scene, you would want
+       to bring up a 'joint_state_publisher' as well. There is currently an
+       issue with the ragnar state publisher that prevents this, however.
+  -->
+
+  <!-- Robot State Publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- Visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ragnar_support)/urdf.rviz" />
+
+</launch>

@@ -1,17 +1,14 @@
 <?xml version="1.0" ?>
 <launch>
   <arg name="robot_ip" default="192.168.1.240"/>
-
-  <param name="robot_description" textfile="$(find ragnar_support)/urdf/ragnar.urdf" />
+  <arg name="port" default="11002"/>
 
   <node name="ragnar_drivers" pkg="ragnar_drivers" type="ragnar_client_node" >
     <param name="ip" value="$(arg robot_ip)"/>
-    <param name="port" value="11002"/>
+    <param name="port" value="$(arg port)"/>
   </node>
 
   <!-- Ragnar State Publisher -->
   <node name="ragnar_state_publisher" pkg="ragnar_state_publisher" type="ragnar_state_publisher_node" />
   
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ragnar_support)/urdf.rviz" />
-
 </launch>

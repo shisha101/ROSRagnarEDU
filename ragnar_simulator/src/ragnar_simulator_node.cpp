@@ -50,7 +50,7 @@ int main(int argc, char** argv)
   // create pub/subscribers and wire them up
   ros::Publisher current_state_pub = nh.advertise<sensor_msgs::JointState>("joint_states", 1);
   ros::Subscriber command_state_sub = 
-      nh.subscribe<trajectory_msgs::JointTrajectory>("joint_command", 
+      nh.subscribe<trajectory_msgs::JointTrajectory>("joint_path_command", 
                                                      1, 
                                                      boost::bind(setCurrentTrajectory, 
                                                                  _1, 
