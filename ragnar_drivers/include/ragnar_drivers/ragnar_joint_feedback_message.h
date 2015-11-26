@@ -20,7 +20,7 @@ class RagnarJointFeedbackHandler
 {
 
 public:
-  RagnarJointFeedbackHandler();
+  RagnarJointFeedbackHandler(const std::vector<std::string>& joint_names);
   ~RagnarJointFeedbackHandler() {}
 
   using industrial::message_handler::MessageHandler::init;
@@ -40,6 +40,7 @@ public:
 private:
   ros::NodeHandle nh_;
   ros::Publisher joint_states_pub_;
+  std::vector<std::string> joint_names_;
 };
 }
 

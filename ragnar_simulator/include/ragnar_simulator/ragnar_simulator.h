@@ -12,7 +12,7 @@ namespace ragnar_simulator
 class RagnarSimulator
 {
 public:
-  RagnarSimulator(const std::vector<double>& seed_pose);
+  RagnarSimulator(const std::vector<double>& seed_pose, const std::vector<std::string>& joint_names);
 
   const std::vector<std::string>& getJointNames() const { return joint_names_; }
 

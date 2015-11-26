@@ -25,13 +25,15 @@ int main(int argc, char** argv)
 
   RobotStateInterface client;
 
-  ragnar_drivers::RagnarJointFeedbackHandler feedback_handler;
-  feedback_handler.setNodeHandle(nh);
 
   if (!ip_addr.empty())
   {
     // make socket connection
     client.init(ip_addr, tcp_port);
+
+    // Create a message handler
+    ragnar_drivers::RagnarJointFeedbackHandler feedback_handler (client.get_joint_names());
+    feedback_handler.setNodeHandle(nh);
 
     // add message handler to manager
     feedback_handler.setCBConnection(client.get_connection());
@@ -44,7 +46,7 @@ int main(int argc, char** argv)
   }
   else
   {
-    ROS_WARN(
+    ROS_FATAL(
         "Ragnar feedback interface requires that the 'ip' parameter be set");
   }
 

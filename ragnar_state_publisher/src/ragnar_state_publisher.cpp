@@ -71,9 +71,14 @@ namespace rsp = ragnar_state_publisher;
 
 
 
-rsp::RagnarStatePublisher::RagnarStatePublisher(const std::string& joints_topic, const std::string& prefix)
-  : prefix_(prefix)
+rsp::RagnarStatePublisher::RagnarStatePublisher(const std::string& joints_topic,
+                                                const std::vector<std::string>& joint_names,
+                                                const std::string& prefix)
+  : joint_names_(joint_names)
+  , prefix_(prefix)
 {
+  ROS_ASSERT(joint_names.size() == 4);
+
   joint_sub_ = nh_.subscribe<sensor_msgs::JointState>(joints_topic, 1,
                       boost::bind(&rsp::RagnarStatePublisher::updateJointPosition,
                                   this,
@@ -89,15 +94,45 @@ rsp::RagnarStatePublisher::RagnarStatePublisher(const std::string& joints_topic,
   zi_.push_back(mat.getColumn(2));
 }
 
+bool rsp::RagnarStatePublisher::extractJoints(const sensor_msgs::JointState& msg, double* actuators) const
+{
+  int indexes[4] = {-1, -1, -1, -1};
+  for (int i = 0; i < (int)msg.name.size(); ++i)
+  {
+    if (msg.name[i] == joint_names_[0]) indexes[0] = i;
+    else if (msg.name[i] == joint_names_[1]) indexes[1] = i;
+    else if (msg.name[i] == joint_names_[2]) indexes[2] = i;
+    else if (msg.name[i] == joint_names_[3]) indexes[3] = i;
+  }
+
+  // Check for failure
+  for (int i = 0; i < 4; ++i)
+  {
+    if (indexes[i] < 0) return false;
+  }
+
+  // Otherwise copy values, and continue on
+  for (int i = 0; i < 4; i++)
+  {
+    actuators[i] = msg.position[indexes[i]];
+  }
+
+  return true;
+}
+
 void rsp::RagnarStatePublisher::updateJointPosition(const sensor_msgs::JointStateConstPtr& joints)
 {
-  //ROS_INFO("Handling new joint state, calculating tf");
-  // using joint states, calculate forward kinematics of ragnar
-  double actuators[4] = {joints->position[0], joints->position[1],
-                        joints->position[2], joints->position[3]};
+  double actuators[4];
+
+  if (!extractJoints(*joints, actuators))
+  {
+    //  JointState did not contain all of the robot joint names
+    return;
+  }
 
   double pose[4];
 
+  // using joint states, calculate forward kinematics of ragnar
   if (!ragnar_kinematics::forward_kinematics(actuators, pose))
   {
     ROS_WARN("Could not calculate FK for given pose");

@@ -14,9 +14,14 @@ namespace ragnar_state_publisher
 class RagnarStatePublisher
 {
 public:
-  RagnarStatePublisher(const std::string& joints_topic, const std::string& prefix = "");
+  RagnarStatePublisher(const std::string& joints_topic,
+                       const std::vector<std::string>& joint_names,
+                       const std::string& prefix = "");
 
   void updateJointPosition(const sensor_msgs::JointStateConstPtr& joints);
+
+protected:
+  bool extractJoints(const sensor_msgs::JointState& msg, double* actuators) const;
 
 private:
   ros::NodeHandle nh_;
@@ -25,6 +30,8 @@ private:
 
   tf::Transform base_transform_;
   std::vector<tf::Vector3> zi_;
+
+  std::vector<std::string> joint_names_;
   std::string prefix_;
 };
 
