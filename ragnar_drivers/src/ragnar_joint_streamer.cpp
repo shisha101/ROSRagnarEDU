@@ -208,6 +208,10 @@ void ragnar_drivers::RagnarTrajectoryStreamer::goalCB(JointTractoryActionServer:
   has_active_goal_ = true;
 
   const trajectory_msgs::JointTrajectory& traj = active_goal_.getGoal()->trajectory;
+  if (!traj.points.empty())
+  {
+    target_pt_ = traj.points.back();
+  }
   jointTrajectoryCB( trajectory_msgs::JointTrajectoryConstPtr(new trajectory_msgs::JointTrajectory(traj)) );
 }
 
@@ -224,12 +228,22 @@ void ragnar_drivers::RagnarTrajectoryStreamer::cancelCB(JointTractoryActionServe
   }
 }
 
+static bool inRange(const std::vector<double>& a, const std::vector<double>& b, double eps)
+{
+  ROS_ASSERT(a.size() == b.size());
+  for (size_t i = 0; i < a.size(); ++i)
+  {
+    if (std::abs(a[i] - b[i]) > eps) return false;
+  }
+  return true;
+}
+
 void ragnar_drivers::RagnarTrajectoryStreamer::jointStateCB(const sensor_msgs::JointStateConstPtr &msg)
 {
   this->cur_joint_pos_ = *msg;
   if (has_active_goal_)
   {
-    if (state_ == TransferStates::IDLE)
+    if (state_ == TransferStates::IDLE && inRange(cur_joint_pos_.position, target_pt_.positions, 0.005))
     {
       ROS_INFO("Action succeeded");
       active_goal_.setSucceeded();

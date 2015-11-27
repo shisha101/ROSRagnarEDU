@@ -36,6 +36,7 @@ public:
 
   JointTractoryActionServer action_server_;
   JointTractoryActionServer::GoalHandle active_goal_;
+  trajectory_msgs::JointTrajectoryPoint target_pt_;
   bool has_active_goal_;
 
 
