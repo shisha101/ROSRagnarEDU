@@ -181,3 +181,59 @@ bool ragnar_drivers::RagnarTrajectoryStreamer::trajectory_to_msgs(
 
   return true;
 }
+
+// RAGNAR action server stuff
+
+ragnar_drivers::RagnarTrajectoryStreamer::RagnarTrajectoryStreamer()
+  : action_server_(node_, "joint_trajectory_action", boost::bind(&RagnarTrajectoryStreamer::goalCB, this, _1),
+                   boost::bind(&RagnarTrajectoryStreamer::cancelCB, this, _1), false)
+  , has_active_goal_(false)
+{
+   action_server_.start();
+}
+
+void ragnar_drivers::RagnarTrajectoryStreamer::goalCB(JointTractoryActionServer::GoalHandle& gh)
+{
+  ROS_INFO("Recieved new goal request");
+  if (has_active_goal_)
+  {
+    ROS_WARN("Received new goal, canceling current one");
+    trajectoryStop();
+    active_goal_.setAborted();
+    has_active_goal_ = false;
+  }
+
+  gh.setAccepted();
+  active_goal_ = gh;
+  has_active_goal_ = true;
+
+  const trajectory_msgs::JointTrajectory& traj = active_goal_.getGoal()->trajectory;
+  jointTrajectoryCB( trajectory_msgs::JointTrajectoryConstPtr(new trajectory_msgs::JointTrajectory(traj)) );
+}
+
+void ragnar_drivers::RagnarTrajectoryStreamer::cancelCB(JointTractoryActionServer::GoalHandle& gh)
+{
+  ROS_INFO("Cancelling goal");
+  if (active_goal_ == gh)
+  {
+    // stop the controller
+    trajectoryStop();
+    // mark the goal as canceled
+    active_goal_.setCanceled();
+    has_active_goal_ = false;
+  }
+}
+
+void ragnar_drivers::RagnarTrajectoryStreamer::jointStateCB(const sensor_msgs::JointStateConstPtr &msg)
+{
+  this->cur_joint_pos_ = *msg;
+  if (has_active_goal_)
+  {
+    if (state_ == TransferStates::IDLE)
+    {
+      ROS_INFO("Action succeeded");
+      active_goal_.setSucceeded();
+      has_active_goal_ = true;
+    }
+  }
+}
