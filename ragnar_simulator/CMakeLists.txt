@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   ragnar_kinematics
   roscpp
   sensor_msgs
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions

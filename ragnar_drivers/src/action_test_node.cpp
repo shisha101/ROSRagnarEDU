@@ -11,7 +11,7 @@ static trajectory_msgs::JointTrajectory makeCircleTrajectory()
   JointTrajectory traj;
 
   // Create circle points
-  const double r = 0.15;
+  const double r = 0.2;
   const double dt = 0.05;
 
   double pose[4];
@@ -58,11 +58,13 @@ int main(int argc, char** argv)
   goal.trajectory.joint_names.push_back("joint_3");
   goal.trajectory.joint_names.push_back("joint_4");
 
-  goal.trajectory.points.resize(10);
-
+  ROS_INFO("Sending goal");
   ac.sendGoal(goal);
-
+  ROS_INFO("Waiting on goal");
   ac.waitForResult();
+
+  actionlib::SimpleClientGoalState state = ac.getState();
+  ROS_INFO("Action finished: %s",state.toString().c_str());
 
   return 0;
 }

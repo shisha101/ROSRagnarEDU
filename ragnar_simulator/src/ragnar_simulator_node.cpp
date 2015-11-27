@@ -6,7 +6,7 @@
 
 void publishCurrentState(const ros::TimerEvent& timer,
                          ros::Publisher& pub,
-                         const ragnar_simulator::RagnarSimulator& sim)
+                         ragnar_simulator::RagnarSimulator& sim)
 {
   sensor_msgs::JointState joint_state;
   joint_state.header.frame_id = "world";
@@ -14,6 +14,7 @@ void publishCurrentState(const ros::TimerEvent& timer,
   joint_state.name = sim.getJointNames();
   // compute current position
   sim.computeTrajectoryPosition(timer.current_real, joint_state.position);
+  sim.pollAction();
 
   pub.publish(joint_state);
 }
@@ -55,7 +56,7 @@ int main(int argc, char** argv)
   pnh.param<double>("rate", publish_rate, 30.0);
   
   // instantiate simulation
-  ragnar_simulator::RagnarSimulator sim (seed_position, joint_names);
+  ragnar_simulator::RagnarSimulator sim (seed_position, nh);
 
   // create pub/subscribers and wire them up
   ros::Publisher current_state_pub = nh.advertise<sensor_msgs::JointState>("joint_states", 1);
@@ -69,7 +70,7 @@ int main(int argc, char** argv)
       nh.createTimer(ros::Duration(1.0/publish_rate), boost::bind(publishCurrentState,
                                                      _1,
                                                      boost::ref(current_state_pub),
-                                                     boost::cref(sim)));
+                                                     boost::ref(sim)));
 
   ROS_INFO("Simulator service spinning");
   ros::spin();
