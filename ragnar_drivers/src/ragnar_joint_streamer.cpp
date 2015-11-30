@@ -17,6 +17,10 @@ namespace TransferStates =
 // Constants
 // NOTE that the robot takes velocity values in millimeters per minute
 const static double RAGNAR_DEFAULT_VELOCITY = 100.0 * 60.0; // 100 mm/s
+// The error from the nominal point that the robot can be at
+// and be considered finished with its goal. It's large, but it seems
+// the FK differs a bit between platforms.
+const static double JOINT_TOL_EPS = 0.05;
 
 // helper function
 static JointTrajPtMessage create_message(int seq,
@@ -243,11 +247,11 @@ void ragnar_drivers::RagnarTrajectoryStreamer::jointStateCB(const sensor_msgs::J
   this->cur_joint_pos_ = *msg;
   if (has_active_goal_)
   {
-    if (state_ == TransferStates::IDLE && inRange(cur_joint_pos_.position, target_pt_.positions, 0.005))
+    if (state_ == TransferStates::IDLE && inRange(cur_joint_pos_.position, target_pt_.positions, JOINT_TOL_EPS))
     {
       ROS_INFO("Action succeeded");
       active_goal_.setSucceeded();
-      has_active_goal_ = true;
+      has_active_goal_ = false;
     }
   }
 }
