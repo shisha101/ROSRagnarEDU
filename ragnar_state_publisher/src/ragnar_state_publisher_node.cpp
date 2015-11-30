@@ -17,7 +17,7 @@ static std::vector<std::string> getDefaultRagnarJointNames()
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "ragnar_state_publisher");
-  ros::NodeHandle nh;
+  ros::NodeHandle nh, pnh("~");
 
   std::vector<std::string> joint_names;
   if (!nh.getParam("controller_joint_names", joint_names))
@@ -30,7 +30,14 @@ int main(int argc, char** argv)
     ROS_INFO("Ragnar State Publisher: loaded joint names from param server");
   }
 
-  ragnar_state_publisher::RagnarStatePublisher pub ("joint_states", joint_names);
+  std::string prefix;
+  pnh.param<std::string>("prefix", prefix, "");
+  if (!prefix.empty())
+  {
+    ROS_INFO("Ragnar State Publisher: Using prefix '%s'", prefix.c_str());
+  }
+
+  ragnar_state_publisher::RagnarStatePublisher pub ("joint_states", joint_names, prefix);
 
   ros::spin();
 }
