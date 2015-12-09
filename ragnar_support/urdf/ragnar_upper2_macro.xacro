@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <robot name="ragnar" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="ragnar_upper2" params="num x y z r p w d1 d2"> 
+  <xacro:macro name="ragnar_upper2" params=" prefix num x y z r p w d1 d2"> 
     
-  <link name="upper_arm_${num}">
+  <link name="${prefix}upper_arm_${num}">
     <visual>
       <origin xyz="0 0 0" rpy="0 1.57 0" />
       <geometry>
@@ -42,10 +42,10 @@
     </collision>
   </link>
 
-  <joint name="a${num}_j1" type="revolute">
+  <joint name="${prefix}joint_${num}" type="floating">
     <origin xyz="${x} ${y} ${z}" rpy="${r} ${p} ${w}" />
-    <parent link="base_link2" />
-    <child link="upper_arm_${num}" />
+    <parent link="${prefix}base_link2" />
+    <child link="${prefix}upper_arm_${num}" />
     <axis xyz="-1.0 0 0" />
     <limit effort="0" lower="-3.1416" upper="3.1416" velocity="2.618"/>
   </joint>
@@ -53,7 +53,7 @@
     <!--xacro:include filename="$(find ragnar_support)/urdf/Ragnar_lower_macro.xacro"/>
     <xacro:ragnar_lower prefix=""/-->
 
-  <link name="lower_arm_${num}">
+  <link name="${prefix}lower_arm_${num}">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
@@ -102,10 +102,10 @@
     </collision>
   </link>
 
-  <joint name="a${num}_j2" type="floating">
+  <joint name="${prefix}a${num}_j2" type="floating">
     <origin xyz="0 ${d1} 0" rpy="0 0 0" />
-    <parent link="upper_arm_${num}" />
-    <child link="lower_arm_${num}" />
+    <parent link="${prefix}upper_arm_${num}" />
+    <child link="${prefix}lower_arm_${num}" />
   </joint>
 
 

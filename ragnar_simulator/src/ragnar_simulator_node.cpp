@@ -34,6 +34,16 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
   ros::NodeHandle pnh ("~");
 
+  // nh loads joint names if possible
+  std::vector<std::string> joint_names;
+  if (!nh.getParam("controller_joint_names", joint_names))
+  {
+    // otherwise, it loads defaults
+    joint_names.push_back("joint_1");
+    joint_names.push_back("joint_2");
+    joint_names.push_back("joint_3");
+    joint_names.push_back("joint_4");
+  }
   // pnh loads configuration parameters
   std::vector<double> seed_position;
   if (!pnh.getParam("initial_position", seed_position))
@@ -45,7 +55,7 @@ int main(int argc, char** argv)
   pnh.param<double>("rate", publish_rate, 30.0);
   
   // instantiate simulation
-  ragnar_simulator::RagnarSimulator sim (seed_position);
+  ragnar_simulator::RagnarSimulator sim (seed_position, joint_names);
 
   // create pub/subscribers and wire them up
   ros::Publisher current_state_pub = nh.advertise<sensor_msgs::JointState>("joint_states", 1);

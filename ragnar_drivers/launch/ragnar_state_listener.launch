@@ -3,12 +3,17 @@
   <arg name="robot_ip" default="192.168.1.240"/>
   <arg name="port" default="11002"/>
 
-  <node name="ragnar_drivers" pkg="ragnar_drivers" type="ragnar_client_node" >
+  <rosparam command="load" file="$(find ragnar_drivers)/config/ragnar_joint_names.yaml" />
+
+  <node name="ragnar_drivers" pkg="ragnar_drivers" type="ragnar_client_node">
     <param name="ip" value="$(arg robot_ip)"/>
     <param name="port" value="$(arg port)"/>
   </node>
 
   <!-- Ragnar State Publisher -->
-  <node name="ragnar_state_publisher" pkg="ragnar_state_publisher" type="ragnar_state_publisher_node" />
+  <node name="ragnar_state_publisher" pkg="ragnar_state_publisher" type="ragnar_state_publisher_node">
+    <!-- Prefix given to ragnar macro/xacro in URDF (defaults empty) -->
+    <param name="prefix" value=""/> 
+  </node>
   
 </launch>
