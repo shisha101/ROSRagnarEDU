@@ -16,6 +16,10 @@ void publishCurrentState(const ros::TimerEvent& timer,
   sim.computeTrajectoryPosition(timer.current_real, joint_state.position);
   sim.pollAction();
 
+  std::reverse(joint_state.position.begin(), joint_state.position.end());
+  for (unsigned i = 0; i < joint_state.position.size(); ++i)
+    joint_state.position[i] *= -1.0;
+
   pub.publish(joint_state);
 }
 
