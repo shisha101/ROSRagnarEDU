@@ -5,6 +5,9 @@
 #include <string>
 
 #include <trajectory_msgs/JointTrajectory.h>
+#include <control_msgs/FollowJointTrajectoryAction.h>
+#include <ros/node_handle.h>
+#include <actionlib/server/action_server.h>
 
 namespace ragnar_simulator
 {
@@ -12,7 +15,7 @@ namespace ragnar_simulator
 class RagnarSimulator
 {
 public:
-  RagnarSimulator(const std::vector<double>& seed_pose, const std::vector<std::string>& joint_names);
+  RagnarSimulator(const std::vector<double>& seed_pose, ros::NodeHandle &nh);
 
   const std::vector<std::string>& getJointNames() const { return joint_names_; }
 
@@ -22,8 +25,22 @@ public:
   // trajectory
   bool computeTrajectoryPosition(const ros::Time& tm, std::vector<double>& output) const;
 
+  void pollAction();
+
 private:
+  // Configuration
   std::vector<std::string> joint_names_;
+
+  // Action server
+  typedef actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction> JointTractoryActionServer;
+
+  void goalCB(JointTractoryActionServer::GoalHandle & gh);
+  void cancelCB(JointTractoryActionServer::GoalHandle & gh);
+
+  JointTractoryActionServer action_server_;
+  JointTractoryActionServer::GoalHandle active_goal_;
+  bool has_active_goal_;
+
   // State 
   trajectory_msgs::JointTrajectory traj_;
   std::vector<double> traj_start_position_; 

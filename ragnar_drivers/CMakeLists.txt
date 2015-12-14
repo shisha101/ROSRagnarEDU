@@ -11,6 +11,7 @@ find_package(catkin REQUIRED
     sensor_msgs
     industrial_utils
     ragnar_kinematics
+    actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -160,6 +161,12 @@ target_link_libraries(ragnar_streamer_node
   # ${PROJECT_NAME}
   ${catkin_LIBRARIES}
 )
+
+add_executable(ragnar_action_test_node
+  src/action_test_node.cpp 
+)
+
+target_link_libraries(ragnar_action_test_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##

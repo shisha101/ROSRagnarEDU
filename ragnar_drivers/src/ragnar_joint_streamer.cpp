@@ -17,6 +17,10 @@ namespace TransferStates =
 // Constants
 // NOTE that the robot takes velocity values in millimeters per minute
 const static double RAGNAR_DEFAULT_VELOCITY = 100.0 * 60.0; // 100 mm/s
+// The error from the nominal point that the robot can be at
+// and be considered finished with its goal. It's large, but it seems
+// the FK differs a bit between platforms.
+const static double JOINT_TOL_EPS = 0.05;
 
 // helper function
 static JointTrajPtMessage create_message(int seq,
@@ -180,4 +184,74 @@ bool ragnar_drivers::RagnarTrajectoryStreamer::trajectory_to_msgs(
   }
 
   return true;
+}
+
+// RAGNAR action server stuff
+
+ragnar_drivers::RagnarTrajectoryStreamer::RagnarTrajectoryStreamer()
+  : action_server_(node_, "joint_trajectory_action", boost::bind(&RagnarTrajectoryStreamer::goalCB, this, _1),
+                   boost::bind(&RagnarTrajectoryStreamer::cancelCB, this, _1), false)
+  , has_active_goal_(false)
+{
+   action_server_.start();
+}
+
+void ragnar_drivers::RagnarTrajectoryStreamer::goalCB(JointTractoryActionServer::GoalHandle& gh)
+{
+  ROS_INFO("Recieved new goal request");
+  if (has_active_goal_)
+  {
+    ROS_WARN("Received new goal, canceling current one");
+    trajectoryStop();
+    active_goal_.setAborted();
+    has_active_goal_ = false;
+  }
+
+  gh.setAccepted();
+  active_goal_ = gh;
+  has_active_goal_ = true;
+
+  const trajectory_msgs::JointTrajectory& traj = active_goal_.getGoal()->trajectory;
+  if (!traj.points.empty())
+  {
+    target_pt_ = traj.points.back();
+  }
+  jointTrajectoryCB( trajectory_msgs::JointTrajectoryConstPtr(new trajectory_msgs::JointTrajectory(traj)) );
+}
+
+void ragnar_drivers::RagnarTrajectoryStreamer::cancelCB(JointTractoryActionServer::GoalHandle& gh)
+{
+  ROS_INFO("Cancelling goal");
+  if (active_goal_ == gh)
+  {
+    // stop the controller
+    trajectoryStop();
+    // mark the goal as canceled
+    active_goal_.setCanceled();
+    has_active_goal_ = false;
+  }
+}
+
+static bool inRange(const std::vector<double>& a, const std::vector<double>& b, double eps)
+{
+  ROS_ASSERT(a.size() == b.size());
+  for (size_t i = 0; i < a.size(); ++i)
+  {
+    if (std::abs(a[i] - b[i]) > eps) return false;
+  }
+  return true;
+}
+
+void ragnar_drivers::RagnarTrajectoryStreamer::jointStateCB(const sensor_msgs::JointStateConstPtr &msg)
+{
+  this->cur_joint_pos_ = *msg;
+  if (has_active_goal_)
+  {
+    if (state_ == TransferStates::IDLE && inRange(cur_joint_pos_.position, target_pt_.positions, JOINT_TOL_EPS))
+    {
+      ROS_INFO("Action succeeded");
+      active_goal_.setSucceeded();
+      has_active_goal_ = false;
+    }
+  }
 }
