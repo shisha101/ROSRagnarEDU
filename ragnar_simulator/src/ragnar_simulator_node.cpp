@@ -60,7 +60,7 @@ int main(int argc, char** argv)
   pnh.param<double>("rate", publish_rate, 30.0);
   
   // instantiate simulation
-  ragnar_simulator::RagnarSimulator sim (seed_position, nh);
+  ragnar_simulator::RagnarSimulator sim (seed_position, joint_names, nh);
 
   // create pub/subscribers and wire them up
   ros::Publisher current_state_pub = nh.advertise<sensor_msgs::JointState>("joint_states", 1);
