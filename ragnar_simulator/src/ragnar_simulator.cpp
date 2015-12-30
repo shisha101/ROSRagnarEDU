@@ -3,21 +3,18 @@
 #include <ros/assert.h>
 
 
-ragnar_simulator::RagnarSimulator::RagnarSimulator(const std::vector<double>& seed_pose, ros::NodeHandle& nh)
-  : traj_start_position_(seed_pose)
+ragnar_simulator::RagnarSimulator::RagnarSimulator(const std::vector<double>& seed_pose, 
+                                                   const std::vector<std::string>& joint_names,
+                                                   ros::NodeHandle& nh)
+  : joint_names_(joint_names)
+  , traj_start_position_(seed_pose)
   , traj_start_time_(ros::Time::now())
   , action_server_(nh, "joint_trajectory_action", boost::bind(&RagnarSimulator::goalCB, this, _1),
                    boost::bind(&RagnarSimulator::cancelCB, this, _1), false)
   , has_active_goal_(false)
 {
-  if (traj_start_position_.size() != 4)
-    throw std::runtime_error("Size of Ragnar simulator seed pose != 4");
-
-  joint_names_.push_back("ragnar_joint1");
-  joint_names_.push_back("ragnar_joint2");
-  joint_names_.push_back("ragnar_joint3");
-  joint_names_.push_back("ragnar_joint4");
-
+  ROS_ASSERT(seed_pose.size() == 4);
+  ROS_ASSERT(joint_names.size() == 4);
   action_server_.start();
 }
 

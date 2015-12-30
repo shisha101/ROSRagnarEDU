@@ -274,7 +274,11 @@ void calcSingleArmPoints(const Eigen::Vector3d& P,
                          double gama,
                          Eigen::Vector3d& A,
                          Eigen::Vector3d& B,
-                         Eigen::Vector3d& C)
+                         Eigen::Vector3d& B1,
+                         Eigen::Vector3d& B2,
+                         Eigen::Vector3d& C,
+                         Eigen::Vector3d& C1,
+                         Eigen::Vector3d& C2)
 {
   using namespace Eigen;
   using std::cos;
@@ -301,11 +305,14 @@ void calcSingleArmPoints(const Eigen::Vector3d& P,
   B = rz * ry * rzz * Vector3d(b, 0, 0) + A;
 
   // axis of rotation
-//  Vector3d e = rz * ry * Vector3d(0, 0, 1);
-  // TODO: B1
+  Vector3d e = rz * ry * Vector3d(0, 0, 1);
+  B1 = d / 2.0 * e + B;
+  B2 = -d / 2.0 * e + B;
 
   // Position vectors Ci in xyz
   C = Vector3d(cos(gama), sin(gama), 0) * r + P;
+  C1 = d / 2.0 * e + C;
+  C2 = -d / 2.0 * e + C;
 }
 
 // intermediate points
@@ -319,7 +326,7 @@ bool ragnar_kinematics::calcIntermediatePoints(const double actuator_mm[],
 
   Vector3d P (cartesian_mm[0], cartesian_mm[1], cartesian_mm[2]);
 
-  Vector3d A,B,C;
+  Vector3d A, B, B1, B2, C, C1, C2;
   // arm 0
   calcSingleArmPoints(P,
       actuator_mm[0] + M_PI_2,
@@ -329,16 +336,20 @@ bool ragnar_kinematics::calcIntermediatePoints(const double actuator_mm[],
       RAGNAR_JOINT1_BASE_TILT,
       RAGNAR_JOINT1_PRIMARY_ARM,
       RAGNAR_JOINT1_SECONDARY_ARM,
-      0.02,
+      0.06,
       RAGNAR_JOINT1_BRIDGED_DISTANCE,
       RAGNAR_JOINT1_FIXED_BRIDGE_ANGLE,
       A,
-      B,
-      C
+      B, B1, B2,
+      C, C1, C2
   );
   pts.A.col(0) = A;
   pts.B.col(0) = B;
+  pts.B1.col(0) = B1;
+  pts.B2.col(0) = B2;
   pts.C.col(0) = C;
+  pts.C1.col(0) = C1;
+  pts.C2.col(0) = C2;
 
   // arm 1
   calcSingleArmPoints(P,
@@ -349,16 +360,20 @@ bool ragnar_kinematics::calcIntermediatePoints(const double actuator_mm[],
       RAGNAR_JOINT2_BASE_TILT,
       RAGNAR_JOINT2_PRIMARY_ARM,
       RAGNAR_JOINT2_SECONDARY_ARM,
-      0.02,
+      0.06,
       RAGNAR_JOINT2_BRIDGED_DISTANCE,
       RAGNAR_JOINT2_FIXED_BRIDGE_ANGLE,
       A,
-      B,
-      C
+      B, B1, B2,
+      C, C1, C2
   );
   pts.A.col(1) = A;
   pts.B.col(1) = B;
+  pts.B1.col(1) = B1;
+  pts.B2.col(1) = B2;
   pts.C.col(1) = C;
+  pts.C1.col(1) = C1;
+  pts.C2.col(1) = C2;
 
   // arm 2
   calcSingleArmPoints(P,
@@ -369,16 +384,20 @@ bool ragnar_kinematics::calcIntermediatePoints(const double actuator_mm[],
       RAGNAR_JOINT3_BASE_TILT,
       RAGNAR_JOINT3_PRIMARY_ARM,
       RAGNAR_JOINT3_SECONDARY_ARM,
-      0.02,
+      0.06,
       RAGNAR_JOINT3_BRIDGED_DISTANCE,
       RAGNAR_JOINT3_FIXED_BRIDGE_ANGLE,
       A,
-      B,
-      C
+      B, B1, B2,
+      C, C1, C2
   );
   pts.A.col(2) = A;
   pts.B.col(2) = B;
+  pts.B1.col(2) = B1;
+  pts.B2.col(2) = B2;
   pts.C.col(2) = C;
+  pts.C1.col(2) = C1;
+  pts.C2.col(2) = C2;
 
   // arm 3
   calcSingleArmPoints(P,
@@ -389,16 +408,20 @@ bool ragnar_kinematics::calcIntermediatePoints(const double actuator_mm[],
       RAGNAR_JOINT4_BASE_TILT,
       RAGNAR_JOINT4_PRIMARY_ARM,
       RAGNAR_JOINT4_SECONDARY_ARM,
-      0.02,
+      0.06,
       RAGNAR_JOINT4_BRIDGED_DISTANCE,
       RAGNAR_JOINT4_FIXED_BRIDGE_ANGLE,
       A,
-      B,
-      C
+      B, B1, B2,
+      C, C1, C2
   );
   pts.A.col(3) = A;
   pts.B.col(3) = B;
+  pts.B1.col(3) = B1;
+  pts.B2.col(3) = B2;
   pts.C.col(3) = C;
+  pts.C1.col(3) = C1;
+  pts.C2.col(3) = C2;
 
   return true;
 }

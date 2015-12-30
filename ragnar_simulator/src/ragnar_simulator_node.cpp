@@ -16,6 +16,10 @@ void publishCurrentState(const ros::TimerEvent& timer,
   sim.computeTrajectoryPosition(timer.current_real, joint_state.position);
   sim.pollAction();
 
+  std::reverse(joint_state.position.begin(), joint_state.position.end());
+  for (unsigned i = 0; i < joint_state.position.size(); ++i)
+    joint_state.position[i] *= -1.0;
+
   pub.publish(joint_state);
 }
 
@@ -56,7 +60,7 @@ int main(int argc, char** argv)
   pnh.param<double>("rate", publish_rate, 30.0);
   
   // instantiate simulation
-  ragnar_simulator::RagnarSimulator sim (seed_position, nh);
+  ragnar_simulator::RagnarSimulator sim (seed_position, joint_names, nh);
 
   // create pub/subscribers and wire them up
   ros::Publisher current_state_pub = nh.advertise<sensor_msgs::JointState>("joint_states", 1);
