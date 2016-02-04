@@ -10,6 +10,8 @@ ROS Ragnar depends on the following core packages:
 
 **Please note that you will need the most recent versions of the debians for 'robot_state_publisher' as of 24 Nov, 2015. Please 'apt-get update' if you have not**
 
+**Please note that you will need an RViz version > 1.11.8**
+
 ## Simulation
 If you want to simulate the robot:
 ```
