@@ -10,6 +10,7 @@ find_package(catkin REQUIRED
     rospy
     sensor_msgs
     industrial_utils
+    industrial_robot_client
     ragnar_kinematics
     actionlib
 )
