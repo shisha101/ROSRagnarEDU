@@ -218,16 +218,4 @@ void rsp::RagnarStatePublisher::updateJointPosition(const sensor_msgs::JointStat
                                                      joints->header.stamp,
                                                      prefix_ + "base_link",
                                                      prefix_ + "ee_link"));
-  // Base to World
-  tf::Transform identity;
-  identity.setIdentity();
-  tf_broadcaster_.sendTransform(tf::StampedTransform(identity,
-                                                       joints->header.stamp,
-                                                       prefix_ + "world",
-                                                       prefix_ + "base_link"));
-  // tool0 to EE link
-  tf_broadcaster_.sendTransform(tf::StampedTransform(identity,
-                                                       joints->header.stamp,
-                                                       prefix_ + "ee_link",
-                                                       prefix_ + "tool0"));
 }

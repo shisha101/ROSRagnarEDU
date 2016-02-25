@@ -15,10 +15,10 @@
     type="ragnar_state_publisher_node" />
 
   <!-- Robot State Publisher -->
-  <!-- node
+  <node
     name="robot_state_publisher"
     pkg="robot_state_publisher"
-    type="robot_state_publisher" /--> 
+    type="robot_state_publisher" />
   
   <!-- Simulation Node -->
   <node
