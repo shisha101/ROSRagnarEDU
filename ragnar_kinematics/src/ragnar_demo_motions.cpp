@@ -8,7 +8,7 @@ static void populateHeader(std_msgs::Header& header)
   header.stamp = ros::Time::now();
 }
 
-static trajectory_msgs::JointTrajectory makeCircleTrajectory()
+static trajectory_msgs::JointTrajectory makeCircleTrajectory(double time_step, int number_of_points_multiplyer=1)
 {
   using namespace trajectory_msgs;
   // Header
@@ -17,17 +17,18 @@ static trajectory_msgs::JointTrajectory makeCircleTrajectory()
 
   // Create circle points
   const double r = 0.15;
-  const double dt = 0.05;
+  const double dt = time_step;
+  const int num_of_points = number_of_points_multiplyer * 360;
 
   double pose[4];
   double joints[4];
 
   double total_t = dt;
 
-  for (int i = 0; i < 360; ++i)
+  for (int i = 0; i < num_of_points; ++i)
   {
-    pose[0] = r * std::cos(i * M_PI / 180.0);
-    pose[1] = r * std::sin(i * M_PI / 180.0);
+    pose[0] = r * std::cos(i/number_of_points_multiplyer * M_PI / 180.0);
+    pose[1] = r * std::sin(i/number_of_points_multiplyer * M_PI / 180.0);
     pose[2] = -0.35;
     pose[3] = 0.0;
 
@@ -291,8 +292,8 @@ int main(int argc, char** argv)
   ros::Publisher traj_pub = nh.advertise<trajectory_msgs::JointTrajectory>("joint_path_command", 1);
 
   // trajectory_msgs::JointTrajectory traj = makeLineTrajectory();
-  // trajectory_msgs::JointTrajectory traj = makeCircleTrajectory(); 
-  trajectory_msgs::JointTrajectory traj = makePickPlaceTrajectory();
+  trajectory_msgs::JointTrajectory traj = makeCircleTrajectory(0.1, 1);
+  //trajectory_msgs::JointTrajectory traj = makePickPlaceTrajectory();
   // 
   std::vector<std::string> names;
   names.push_back("joint_1");

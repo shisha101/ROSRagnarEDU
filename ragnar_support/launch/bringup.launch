@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <launch>
-  <arg name="robot_ip" default="192.168.1.240"/>
+  <arg name="robot_ip" default="10.17.88.39"/>
   <arg name="state_port" default="11002"/>
 
   <!-- Load the workcell description to 'robot_description' -->
