@@ -146,88 +146,93 @@ void rsp::RagnarStatePublisher::updateJointPosition(const sensor_msgs::JointStat
 
   // using intermediate points, calculate transform to each link in model
 
-  tf::Transform upper_link, lower_link, ee_link, base_link;
+  tf::Transform upper_link, lower_link, ee_link;
+  std::vector <tf::StampedTransform> tf_update;
   // Joint 1
   calculateDirectedTransform(pts.A.col(0), pts.B.col(0),zi_[0],upper_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "upper_arm_4"));
+  tf_update.push_back(tf::StampedTransform(upper_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "upper_arm_4"));
+
   calculateDirectedTransform(pts.B1.col(0), pts.C1.col(0),zi_[0],lower_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "lower_arm_4a"));
+  tf_update.push_back(tf::StampedTransform(lower_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "lower_arm_4a"));
+
   calculateDirectedTransform(pts.B2.col(0), pts.C2.col(0),zi_[0],lower_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "lower_arm_4b"));
+  tf_update.push_back(tf::StampedTransform(lower_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "lower_arm_4b"));
   // Joint 2
   calculateDirectedTransform(pts.A.col(1), pts.B.col(1),zi_[1],upper_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "upper_arm_3"));
+  tf_update.push_back(tf::StampedTransform(upper_link,joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "upper_arm_3"));
+
   calculateDirectedTransform(pts.B1.col(1), pts.C1.col(1),zi_[1],lower_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "lower_arm_3a"));
+  tf_update.push_back(tf::StampedTransform(lower_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "lower_arm_3a"));
+
   calculateDirectedTransform(pts.B2.col(1), pts.C2.col(1),zi_[1],lower_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "lower_arm_3b"));
+  tf_update.push_back(tf::StampedTransform(lower_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "lower_arm_3b"));
   // Joint 3
   calculateDirectedTransform(pts.A.col(2), pts.B.col(2),zi_[2],upper_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "upper_arm_2"));
+  tf_update.push_back(tf::StampedTransform(upper_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "upper_arm_2"));
   calculateDirectedTransform(pts.B1.col(2), pts.C1.col(2),zi_[2],lower_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "lower_arm_2a"));
+  tf_update.push_back(tf::StampedTransform(lower_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "lower_arm_2a"));
   calculateDirectedTransform(pts.B2.col(2), pts.C2.col(2),zi_[2],lower_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "lower_arm_2b"));
+  tf_update.push_back(tf::StampedTransform(lower_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "lower_arm_2b"));
   // Joint 4
   calculateDirectedTransform(pts.A.col(3), pts.B.col(3),zi_[3],upper_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(upper_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "upper_arm_1"));
+  tf_update.push_back(tf::StampedTransform(upper_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "upper_arm_1"));
   calculateDirectedTransform(pts.B1.col(3), pts.C1.col(3),zi_[3],lower_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "lower_arm_1a"));
+  tf_update.push_back(tf::StampedTransform(lower_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "lower_arm_1a"));
   calculateDirectedTransform(pts.B2.col(3), pts.C2.col(3),zi_[3],lower_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(lower_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "lower_arm_1b"));
+  tf_update.push_back(tf::StampedTransform(lower_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "lower_arm_1b"));
   // EE link
   ee_link.setIdentity();
   calculateEELinkTransform(pts.C,ee_link);
-  tf_broadcaster_.sendTransform(tf::StampedTransform(ee_link,
-                                                     joints->header.stamp,
-                                                     prefix_ + "base_link",
-                                                     prefix_ + "ee_link"));
+  tf_update.push_back(tf::StampedTransform(ee_link,
+                                           joints->header.stamp,
+                                           prefix_ + "base_link",
+                                           prefix_ + "ee_link"));
   // Base to World
   tf::Transform identity;
   identity.setIdentity();
-  tf_broadcaster_.sendTransform(tf::StampedTransform(identity,
-                                                       joints->header.stamp,
-                                                       prefix_ + "world",
-                                                       prefix_ + "base_link"));
+  tf_update.push_back(tf::StampedTransform(identity,
+                                           joints->header.stamp,
+                                           prefix_ + "world",
+                                           prefix_ + "base_link"));
   // tool0 to EE link
-  tf_broadcaster_.sendTransform(tf::StampedTransform(identity,
-                                                       joints->header.stamp,
-                                                       prefix_ + "ee_link",
-                                                       prefix_ + "tool0"));
+  tf_update.push_back(tf::StampedTransform(identity,
+                                           joints->header.stamp,
+                                           prefix_ + "ee_link",
+                                           prefix_ + "tool0"));
+  tf_broadcaster_.sendTransform(tf_update);
 }
